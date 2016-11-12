@@ -251,7 +251,7 @@ class SiteController extends Controller
 public function actionRss()
 {
     $dataProvider = new ActiveDataProvider([
-        'query' => Post::find()->with(['user']),
+        'query' => PostSearch::find()->with(['user']),
         'pagination' => [
             'pageSize' => 10
         ],
@@ -268,7 +268,7 @@ public function actionRss()
             'title' => function ($widget, \Zelenin\Feed $feed) {
                     $feed->addChannelTitle(Yii::$app->name);
             },
-            'link' => Url::toRoute('/', true),
+            'link'  => Url::toRoute('/', true),
             'description' => 'Posts ',
             'language' => function ($widget, \Zelenin\Feed $feed) {
                 return Yii::$app->language;
@@ -300,6 +300,11 @@ public function actionRss()
                 }
         ]
     ]);
+            return $this->render('rss', [
+             'model' => $model,
+        ]);
+
+
 }
 
 }
