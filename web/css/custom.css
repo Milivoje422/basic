@@ -1,0 +1,127 @@
+.body-background
+{
+	background-image: url('../../images/main-background.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+.secund-navbar
+{
+	padding: 0;
+    margin: 0;
+    display: flex;
+    float: right;
+    margin-right: 30px;
+    list-style: none;
+}
+.footer-style
+{
+	background: #d3c787;
+    border-radius: 5px;
+}
+.secund-navbar li
+{
+    padding: 10px 20px;
+    color: #7b2e00;
+    transition: all 500ms;
+    cursor: pointer;
+    font-weight: 800;
+}
+.secund-navbar li:hover
+{
+	background-color: #7b2e00;
+	color:#d3c787;
+}
+.home .active
+{
+	background-color: #7b2e00;
+	color:#d3c787;	
+}
+.secund-navbar li a 
+{
+	text-decoration: none;
+}
+.list-style-footer
+{
+	margin: 10px !important;
+	color:#7b2e00;
+}
+
+.navbar-custom
+{
+	position: relative;
+}
+.navbar-background-img
+{
+	background-image: url('../../images/navbar-background.png');
+	background-repeat: no-repeat;
+	height: 120px;
+    margin-top: -40px;
+    position: relative;
+}
+.main-navbar_custom
+{
+    margin: 0;
+    padding: 0;
+    display: flex;
+    list-style: none;
+    font-size: 15px;
+    font-weight: 600;
+    width: 100%;
+    margin-top: 15px;
+    background: #dad2a8;
+    border-radius: 10px;
+    padding-right: 6px;	
+    padding-left: 6px;
+}
+
+.main-navbar_custom li
+{
+    width: 23%;
+    padding: 9px 1%;
+    text-align: center;
+    color: black;
+    margin-bottom: 1px;
+    margin-top: 1px;
+    transition: all 500ms;
+    cursor: pointer;
+}
+
+.main-navbar_custom li:hover
+{
+	background:black;
+	color: #dad2a8;
+}
+
+.search-input_custom
+{
+	margin-top: 15px;
+    height: 40px;
+    border-radius: 9px;
+}
+
+.site_title
+{
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+    .item_style
+    {
+     width: 46%; 
+    float: left;
+     margin-left: 2%; 
+     margin-right: 2%; 
+    background: #ffffff;
+     margin-top: 10px; 
+     margin-bottom: 10px; 
+    }
+
+    .item-box
+    {
+        background: #ffffff;
+    }
+    .box-header
+    {
+        background: #d5c68a;
+        padding: 6px 10px;
+    }
