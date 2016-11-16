@@ -11,23 +11,12 @@ use app\models\ContactForm;
 
 use yii\web\NotFoundHttpException;
 
-use app\models\getRss;
-use app\models\Categories;
-use app\models\CategoriesSearch;
-
-use app\models\rssnews;
 use app\models\PostSearch;
 use yii\data\SqlDataProvider;
 use yii\data\Pagination;
 
-use app\models\feed;
 use yii\data\ActiveDataProvider;
-
-// if (!ini_get('date.timezone')) {
-//     date_default_timezone_set('Europe/Prague');
-// }
-
-// require_once '../rss/src/Feed.php';
+use app\models\rssnewsSearch;
 
 
 class SiteController extends Controller
@@ -73,15 +62,6 @@ class SiteController extends Controller
             ],
         ];
     }
-
-    public function getPosts($id, $category_id)
-    {
-
-    }
-
-
-
-
     /**
      * Login action.
      *
@@ -178,6 +158,7 @@ class SiteController extends Controller
         ]);  
     }
 
+
     public function actionTech()
     {
         $query = PostSearch::find()->where(["category_id" => 2]);
@@ -237,70 +218,49 @@ class SiteController extends Controller
              'pages' => $pages,
         ]);
     }
+    public function actionPasteRss($url, $category)
+    {
+        $feed = Yii::$app->rss_feed->loadRss($url);
+        foreach ($feed->item as $item) {
+            $model = new rssnewsSearch();
 
-    // public function actionRss()
-    // {
+            $time = $item->pubDate; 
+            $formated_time = date('Y-m-d h:i:s', strtotime($time));
 
-    //     // $r = new feed();
+            $model->title = $item->title;
+            $model->content = $item->description;
+            $model->main_link = $item->link;
+            $model->category_id = $category;
+            $model->datetime = $formated_time;
 
-    //    // $feed=Yii::$app->feed->reader()->import('http://news.yahoo.com/rss/science');
+            $model->save();
+        }
+      return true;  
+    }
+
+    public function actionRss()
+    {
+        $this->actionPasteRss('http://news.yahoo.com/rss/science', 1);
 
 
-    //     return $this->render('rss');
-    // }
-public function actionRss()
-{
-    $dataProvider = new ActiveDataProvider([
-        'query' => Post::find()->with(['user']),
-        'pagination' => [
-            'pageSize' => 10
-        ],
-    ]);
 
-    $response = Yii::$app->getResponse();
-    $headers = $response->getHeaders();
+        $this->actionPasteRss('http://news.yahoo.com/rss/tech', 2);
+        
 
-    $headers->set('Content-Type', 'application/rss+xml; charset=utf-8');
 
-    echo \Zelenin\yii\extensions\Rss\RssView::widget([
-        'dataProvider' => $dataProvider,
-        'channel' => [
-            'title' => function ($widget, \Zelenin\Feed $feed) {
-                    $feed->addChannelTitle(Yii::$app->name);
-            },
-            'link' => Url::toRoute('/', true),
-            'description' => 'Posts ',
-            'language' => function ($widget, \Zelenin\Feed $feed) {
-                return Yii::$app->language;
-            },
-            'image'=> function ($widget, \Zelenin\Feed $feed) {
-                $feed->addChannelImage('http://example.com/channel.jpg', 'http://example.com', 88, 31, 'Image description');
-            },
-        ],
-        'items' => [
-            'title' => function ($model, $widget, \Zelenin\Feed $feed) {
-                    return $model->name;
-                },
-            'description' => function ($model, $widget, \Zelenin\Feed $feed) {
-                    return StringHelper::truncateWords($model->content, 50);
-                },
-            'link' => function ($model, $widget, \Zelenin\Feed $feed) {
-                    return Url::toRoute(['post/view', 'id' => $model->id], true);
-                },
-            'author' => function ($model, $widget, \Zelenin\Feed $feed) {
-                    return $model->user->email . ' (' . $model->user->username . ')';
-                },
-            'guid' => function ($model, $widget, \Zelenin\Feed $feed) {
-                    $date = \DateTime::createFromFormat('Y-m-d H:i:s', $model->updated_at);
-                    return Url::toRoute(['post/view', 'id' => $model->id], true) . ' ' . $date->format(DATE_RSS);
-                },
-            'pubDate' => function ($model, $widget, \Zelenin\Feed $feed) {
-                    $date = \DateTime::createFromFormat('Y-m-d H:i:s', $model->updated_at);
-                    return $date->format(DATE_RSS);
-                }
-        ]
-    ]);
+        $this->actionPasteRss('http://news.yahoo.com/rss/world', 3);
+
+
+
+        $this->actionPasteRss('http://news.yahoo.com/rss/politics', 4);
+        
+
+
+        $this->actionPasteRss('http://news.yahoo.com/rss/health', 5);
+
+        return $this->render('rss');
+
+    }
 }
 
-}
-
+?>

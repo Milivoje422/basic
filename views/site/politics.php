@@ -25,21 +25,29 @@ use yii\widgets\LinkPager;
 </div>
 <div class="col-sm-12">
     <?php 
-$output = "";
-foreach ($models as $model) {
-       $output .= '<div class="item_style col-sm-6">';
-        $output .= '<div class="item-box row">';
-         $output .= '<div class="box-header">';
-            $output .= $model['datetime'];
-         $output .= '</div>';
-         $output .= '<div class="box-body">';
-            $output .= '<h2>'. $model['title'] .'</h2>'; 
-            $output .= '<p>' . $model['content'] . '</p>';
-         $output .= '</div>';
-        $output .= '</div>';
-       $output .= '</div>';
-}
-    echo $output;
+
+        function cmp($a, $b) {
+            if (strtotime($a['datetime']) == strtotime($b['datetime'])) {  return 0; }
+            return (strtotime($a['datetime']) < strtotime($b['datetime'])) ? 1 : -1; 
+        }
+        uasort($models, 'cmp');
+    $output = "";
+    $output .= "<div class='items_box'>";
+    foreach ($models as $model) {      
+           $output .= '<div class="item_style col-sm-12 col-md-5">';
+            $output .= '<div class="item-box row">';
+             $output .= '<div class="box-header">';
+                $output .= $model['datetime'];
+             $output .= '<div class="fb_like_btn"></div><div class="fb_share_btn"></div></div>';
+             $output .= '<div class="box-body">';
+            $output .= '<a href='. $model['main_link'] .'><h2>'. $model['title'] .'</h2></a>';
+                $output .= '<p>' . $model->getContent($model['content']). '... <a href="'.$model['main_link'].'">Read more</a></p>';
+             $output .= '</div>';
+            $output .= '</div>';
+           $output .= '</div>';
+    }
+        $output .= "</div>";
+        echo $output;
     ?>
 </div>
 <div class="col-sm-12">

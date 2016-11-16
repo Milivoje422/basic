@@ -7,9 +7,6 @@ $config = [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'components' => [
-        'feed' => [
-            'class' => 'yii_rss\feed\FeedDriver',
-        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'testCookie',
@@ -47,6 +44,9 @@ $config = [
             'rules' => [
             ],
         ],
+        'rss_feed' => array(
+            'class' => 'app\yii2\feed',
+        ),
     ],
     'params' => $params,
 ];

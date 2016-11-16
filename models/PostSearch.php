@@ -39,6 +39,23 @@ class PostSearch extends rssnews
      *
      * @return ActiveDataProvider
      */
+
+    public function getContent($content)
+    {
+      $content_text = preg_replace("/<img[^>]+\>/i", " ", $content);
+
+     return  substr($content_text, 0, 200);
+    }
+
+    public function get_img($content)
+    {
+        preg_match('/<img[^>]+\>/i',$content, $matches1);
+        foreach ($matches1 as $value) {
+            return $value;    
+        }
+    }
+
+
     public function search($params)
     {
         $query = rssnews::find();
@@ -47,6 +64,7 @@ class PostSearch extends rssnews
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort'=> ['defaultOrder' => ['datetime'=>SORT_DESC]],
         ]);
 
         $this->load($params);

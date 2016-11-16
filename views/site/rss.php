@@ -12,8 +12,4 @@ use app\models\PostSearch;
 /* @var $searchModel app\models\PostSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-
-
-
-
-
+?>

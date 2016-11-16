@@ -53,10 +53,10 @@
 .navbar-background-img
 {
 	background-image: url('../../images/navbar-background.png');
-	background-repeat: no-repeat;
 	height: 120px;
     margin-top: -40px;
     position: relative;
+    background-repeat: repeat-x;
 }
 .main-navbar_custom
 {
@@ -105,23 +105,126 @@
 	margin-bottom: 10px;
 }
 
-    .item_style
-    {
-     width: 46%; 
-    float: left;
-     margin-left: 2%; 
-     margin-right: 2%; 
+.item_style
+{
+    margin-left: 2%; 
+    margin-right: 2%; 
     background: #ffffff;
-     margin-top: 10px; 
-     margin-bottom: 10px; 
-    }
+    margin-top: 10px; 
+    margin-bottom: 10px; 
+    height:190px;
+}
 
-    .item-box
+.item-box
+{
+    background: #ffffff;
+}
+.box-header
+{
+    background: #d5c68a;
+    padding: 6px 10px;
+    
+}
+.box-body
+{
+    /*padding-bottom: 15px;*/
+}
+
+.box-body a
+{
+    text-decoration:none;
+    color: #001dff;
+    font-weight: 600;
+}
+.box-body a h2
+{
+    font-size: 21px !important;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 10px;
+    color: #9a4e28;
+    text-shadow: 0px 0px 4px #ec9b72;
+}
+
+.box-body p 
+{
+    margin: 21px;
+}
+
+
+.box-body p a img
+{
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.fb_like_btn
+{
+    background-image: url('../../images/s_fb_button.png');
+    background-repeat: no-repeat;
+    float: right;
+    height: 24px;
+    width: 57px;
+    background-size: 57px 24px;
+}
+
+.fb_share_btn
+{
+    background-image: url(../../images/like_.png);
+    background-repeat: no-repeat;
+    float: right;
+    height: 35px;
+    width: 65px;
+    background-size: 62px 46px;
+    margin-top: -12px;
+}
+.main_footer
+{
+    margin-bottom: 80px;
+    margin-top: 20px;
+}
+
+.items_box
+{
+    width: 109%;
+}
+
+.header_height
+{
+    height: 30px;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+}
+
+.site-contact
+{
+    margin-top: 121px;
+    margin-bottom: 70px;
+    background: #ffffff;
+    border-radius: 5px;
+}
+
+.contact_box{
+    margin: auto;
+    float: none;
+}
+.custom_btn
+{
+    width: 100px;
+    background: #7b2e00;
+    color: #ffffff;
+}
+
+@media (max-width: 991px)
+{
+    .items_box
     {
-        background: #ffffff;
+        width:95%;
     }
-    .box-header
-    {
-        background: #d5c68a;
-        padding: 6px 10px;
-    }
+}
+
+
+.pagination{
+    display: table !important;
+    margin: 20px auto !important;
+}

@@ -39,6 +39,12 @@ class Rssnews extends \yii\db\ActiveRecord
         ];
     }
 
+    // public function beforeSave()
+    // {
+    //     return true;
+    // }
+
+
     /**
      * @inheritdoc
      */

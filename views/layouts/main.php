@@ -76,6 +76,68 @@ AppAsset::register($this);
             var base = "<?= Yii::$app->homeUrl;?>";
             window.location = base+$(this).attr('href');
         });
+
+    
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-87323177-1', 'auto');
+      ga('send', 'pageview');
+
+        $(document).ready(function(){
+                $('.ratings_stars').hover(
+                // Handles the mouseover
+                function() {
+                    $(this).prevAll().andSelf().addClass('ratings_over');
+                    $(this).nextAll().removeClass('ratings_vote'); 
+                },
+                // Handles the mouseout
+                function() {
+                    $(this).prevAll().andSelf().removeClass('ratings_over');
+                    set_votes($(this).parent());
+                }
+            );
+
+            $('.rate_widget').each(function(i) {
+                var widget = this;
+                var out_data = {
+                    widget_id : $(widget).attr('id'),
+                    fetch: 1
+                };
+                $.post(
+                    'ratings.php',
+                    out_data,
+                    function(INFO) {
+                        $(widget).data( 'fsr', INFO );
+                        set_votes(widget);
+                    },
+                    'json'
+                );
+            });
+
+            $('.ratings_stars').bind('click', function() {
+                var star = this;
+                var widget = $(this).parent();
+                
+                var clicked_data = {
+                    clicked_on : $(star).attr('class'),
+                    widget_id : widget.attr('id')
+                };
+                $.post(
+                    'ratings.php',
+                    clicked_data,
+                    function(INFO) {
+                        widget.data( 'fsr', INFO );
+                        set_votes(widget);
+                    },
+                    'json'
+                ); 
+            });
+
+
+        });
     </script>
 </body>
 </html>
