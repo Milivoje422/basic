@@ -8,9 +8,7 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
-
-// use Yii;
-use app\controllers\CategoriesController;
+use yii\helpers\Url;
 
 
 AppAsset::register($this);
@@ -26,6 +24,7 @@ AppAsset::register($this);
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+    <link href="/web/css/jquery.rateyo.min.css" rel="stylesheet">
 </head>
 <body class="body-background">
     <div>
@@ -33,10 +32,10 @@ AppAsset::register($this);
         <div class="navbar-custom">
             <div class="navbar-background-img">
                 <div class="container" style="padding-top:40px;">
-                    <div class="col-sm-3">
+                    <div class="col-lg-3 col-sm-4 col-md-3 col-xs-6">
                         <h1 class="site_title"><strong style="color: white; font-size: 48px;">Y-news</strong></h1>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-lg-6 col-sm-8 col-md-6  hidden-xs col-sx-3">
                         <ul class="main-navbar_custom navbar_links">
                             <li href="site/index">Home</li>
                             <li href="site/science">Science</li>
@@ -47,9 +46,22 @@ AppAsset::register($this);
                             <li href="site/contact">Contact</li>
                         </ul>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-lg-3 col-sm-12 col-md-3 hidden-xs col-sx-3">
                         <input type="text" name="" placeholder="Search" class="form-control search-input_custom">
                     </div>
+                    <div class="hidden-sm hidden-md hidden-lg col-xs-6">
+                        <button class="btn btn_custom"><i class="glyphicon glyphicon-menu-hamburger"></i></button>
+                        <ul class="navbar_small_links navbar_links">
+                            <li href="site/index">Home</li>
+                            <li href="site/science">Science</li>
+                            <li href="site/tech">Tech</li>
+                            <li href="site/world">World</li>
+                            <li href="site/politics">Politics</li>
+                            <li href="site/health">Health</li>
+                            <li href="site/contact">Contact</li>
+                        </ul>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -72,6 +84,10 @@ AppAsset::register($this);
 <?php $this->endBody() ?>
 </div>
     <script type="text/javascript">
+        $('.btn_custom').on('click', function(){
+            $('.navbar_small_links').toggle(400);
+        });
+
         $('.navbar_links li').on('click', function(){
             var base = "<?= Yii::$app->homeUrl;?>";
             window.location = base+$(this).attr('href');
@@ -86,59 +102,39 @@ AppAsset::register($this);
       ga('create', 'UA-87323177-1', 'auto');
       ga('send', 'pageview');
 
-        $(document).ready(function(){
-                $('.ratings_stars').hover(
-                // Handles the mouseover
-                function() {
-                    $(this).prevAll().andSelf().addClass('ratings_over');
-                    $(this).nextAll().removeClass('ratings_vote'); 
-                },
-                // Handles the mouseout
-                function() {
-                    $(this).prevAll().andSelf().removeClass('ratings_over');
-                    set_votes($(this).parent());
+  $(function () {
+  
+    $(".rateyo").rateYo();
+    $(".rateyo-readonly-widg").each(function() {
+      var item = $(this);
+    item.rateYo({
+         rating: item.data('rating'),
+          numStars: 5,
+          precision: 2,
+          minValue: 1,
+          maxValue: 5
+      }).on("rateyo.set", function (e, data) {
+          console.log($(this).parent());
+
+            var item_id = e.currentTarget.id;
+            var rating = data.rating; 
+            var url = "<?= Url::to(['site/rating']); ?>";
+
+            $.ajax({
+                method: "POST",
+                data: {item : item_id, data: rating},
+                url: url,
+                success:function(data) {
+                    console.log('success');
                 }
-            );
-
-            $('.rate_widget').each(function(i) {
-                var widget = this;
-                var out_data = {
-                    widget_id : $(widget).attr('id'),
-                    fetch: 1
-                };
-                $.post(
-                    'ratings.php',
-                    out_data,
-                    function(INFO) {
-                        $(widget).data( 'fsr', INFO );
-                        set_votes(widget);
-                    },
-                    'json'
-                );
-            });
-
-            $('.ratings_stars').bind('click', function() {
-                var star = this;
-                var widget = $(this).parent();
-                
-                var clicked_data = {
-                    clicked_on : $(star).attr('class'),
-                    widget_id : widget.attr('id')
-                };
-                $.post(
-                    'ratings.php',
-                    clicked_data,
-                    function(INFO) {
-                        widget.data( 'fsr', INFO );
-                        set_votes(widget);
-                    },
-                    'json'
-                ); 
-            });
+            });            
+      });
+   });
+  });
 
 
-        });
     </script>
+    <script src="/web/js/jquery.rateyo.js"></script>
 </body>
 </html>
 <?php $this->endPage() ?>

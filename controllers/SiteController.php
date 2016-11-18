@@ -17,7 +17,7 @@ use yii\data\Pagination;
 
 use yii\data\ActiveDataProvider;
 use app\models\rssnewsSearch;
-
+use app\models\PostRatingSearch;
 
 class SiteController extends Controller
 {
@@ -119,19 +119,40 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-
-        $query = PostSearch::find();
-        $countQuery = clone $query;
-        $pages = new Pagination(['defaultPageSize' => 6, 'totalCount' => $countQuery->count()]);
-        $models = $query->offset($pages->offset)
-            ->limit($pages->limit)
-            ->all();
-
+        if(isset($_GET['query'])){
+            $model = new PostSearch();
+        }else{
+            $query = PostSearch::find()->with('rating');
+            $countQuery = clone $query;
+            $pages = new Pagination(['defaultPageSize' => 6, 'totalCount' => $countQuery->count()]);
+            $models = $query->offset($pages->offset)
+                ->limit($pages->limit)
+                ->all();
+        }
         return $this->render('index', [
              'models' => $models,
              'pages' => $pages,
         ]);
     }
+
+    public function actionRating()
+    {
+        $response = "Success";
+
+        if(isset($_POST['data']) && isset($_POST['item'])){
+            $model = new PostRatingSearch();
+
+            $model->post_id = $_POST['item'];
+            $model->raiting_value = $_POST['data'];
+        
+            $model->save();
+             // return \yii\helpers\Json::encode($response);
+        }else{
+            $response = "Faild";
+            // return \yii\helpers\Json::encode($response);
+        }   
+    }
+
 
     /**
      * Displays about page.
