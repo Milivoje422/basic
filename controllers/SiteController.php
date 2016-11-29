@@ -32,7 +32,7 @@ class SiteController extends Controller
                 'only' => ['logout'],
                 'rules' => [
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['logout','language'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -62,11 +62,9 @@ class SiteController extends Controller
             ],
         ];
     }
-    /**
-     * Login action.
-     *
-     * @return string
-     */
+
+
+
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {
@@ -82,17 +80,30 @@ class SiteController extends Controller
         ]);
     }
 
-    /**
-     * Logout action.
-     *
-     * @return string
-     */
     public function actionLogout()
     {
         Yii::$app->user->logout();
 
         return $this->goHome();
     }
+
+
+
+
+    public function actionLanguage()
+    {
+        if(isset($_POST['lang'])){
+            Yii::$app->language = $_POST['lang'];
+            $cookie = new yii\web\Cookie([
+                'name' => 'lang',
+                'value'=> $_POST['lang']
+                ]);
+
+            Yii::$app->getResponse()->getCookies()->add($cookie);
+        }
+    }
+
+
 
     /**
      * Displays contact page.
@@ -146,10 +157,8 @@ class SiteController extends Controller
             $model->raiting_value = $_POST['data'];
         
             $model->save();
-             // return \yii\helpers\Json::encode($response);
         }else{
             $response = "Faild";
-            // return \yii\helpers\Json::encode($response);
         }   
     }
 
