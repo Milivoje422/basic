@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\rssnews;
+use app\models\PostRatingSearch;
 
 /**
  * PostSearch represents the model behind the search form about `app\models\rssnews`.
@@ -55,6 +56,31 @@ class PostSearch extends rssnews
         }
     }
 
+    public function getRating()
+    {
+        return $this->hasMany(PostRatingSearch::className(), ['post_id' => 'id']);
+    }
+
+    public function ratingFilter($getRating)
+    {
+        $ratings =array();
+        foreach ($getRating as $key => $value) {
+            $ratings[] = $value['raiting_value'];
+        }
+
+        if(array_sum($ratings) !== 0){
+            $totalRating = array_sum($ratings) / count($ratings);
+        }else
+        {
+            $totalRating = 0;
+        }
+
+        if($totalRating >= 5)
+            $totalRating = 5;
+
+        return $totalRating;
+    }
+
 
     public function search($params)
     {
@@ -85,7 +111,6 @@ class PostSearch extends rssnews
         $query->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'content', $this->content])
             ->andFilterWhere(['like', 'raiting', $this->raiting])
-            ->andFilterWhere(['like', 'preview', $this->preview])
             ->andFilterWhere(['like', 'main_link', $this->main_link]);
 
         return $dataProvider;

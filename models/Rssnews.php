@@ -39,26 +39,21 @@ class Rssnews extends \yii\db\ActiveRecord
         ];
     }
 
-    // public function beforeSave()
-    // {
-    //     return true;
-    // }
-
-
     /**
      * @inheritdoc
      */
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'category_id' => 'Category ID',
-            'title' => 'Title',
-            'content' => 'Content',
-            'datetime' => 'Datetime',
-            'raiting' => 'Raiting',
-            'preview' => 'Preview',
-            'main_link' => 'Main Link',
+            'id'            => 'ID',
+            'category_id'   => 'Category ID',
+            'title'         => 'Title',
+            'content'       => 'Content',
+            'datetime'      => 'Datetime',
+            'raiting'       => 'Raiting',
+            'preview'       => 'Preview',
+            'image'         => 'Image',
+            'main_link'     => 'Main Link',
         ];
     }
 }
