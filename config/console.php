@@ -8,7 +8,23 @@ $config = [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'app\commands',
+    // 'language' => 'ru',
+    // 'sourceLanguage' => 'en',
     'components' => [
+
+        // 'i18n' => [
+        //     'translations' => [
+        //         'app' => [
+        //             'class' => 'yii\i18n\PhpMessagwSource',
+        //             // 'basePath' => '@app/messages',
+        //             'sourceLanguage' => 'en',
+        //             'fileMap' => [
+        //                 'app' => 'app.php',
+        //                 'app/error' => 'error.php',
+        //             ],
+        //         ],
+        //     ],
+        // ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
@@ -21,6 +37,10 @@ $config = [
             ],
         ],
         'db' => $db,
+    ],
+
+    'as beforeRequest' => [
+        'class' => 'app\messages\CheckLanguage',
     ],
     'params' => $params,
     /*

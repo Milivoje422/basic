@@ -24,7 +24,11 @@ AppAsset::register($this);
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+<<<<<<< HEAD
     <!-- <link href="/web/css/jquery.rateyo.min.css" rel="stylesheet"> -->
+=======
+    <link href="/web/css/jquery.rateyo.min.css" rel="stylesheet">
+>>>>>>> 037a45e586e584838ce11dbe539eb7cfb0d741c8
 </head>
 <body class="body-background">
     <div>
@@ -37,13 +41,13 @@ AppAsset::register($this);
                     </div>
                     <div class="col-lg-6 col-sm-8 col-md-6  hidden-xs col-sx-3">
                         <ul class="main-navbar_custom navbar_links">
-                            <li href="site/index">Home</li>
-                            <li href="site/science">Science</li>
-                            <li href="site/tech">Tech</li>
-                            <li href="site/world">World</li>
-                            <li href="site/politics">Politics</li>
-                            <li href="site/health">Health</li>
-                            <li href="site/contact">Contact</li>
+                            <li href="site/index"><?= Yii::t('app','Home') ?></li>
+                            <li href="site/science"><?= Yii::t('app','Science') ?></li>
+                            <li href="site/tech"><?= Yii::t('app','Tech') ?></li>
+                            <li href="site/world"><?= Yii::t('app','World') ?></li>
+                            <li href="site/politics"><?= Yii::t('app','Politics') ?></li>
+                            <li href="site/health"><?= Yii::t('app','Health') ?></li>
+                            <li href="site/contact"><?= Yii::t('app', 'Contact') ?></li>
                         </ul>
                     </div>
                     <div class="col-lg-3 col-sm-12 col-md-3 hidden-xs col-sx-3">
@@ -52,6 +56,7 @@ AppAsset::register($this);
                     <div class="hidden-sm hidden-md hidden-lg col-xs-6">
                         <button class="btn btn_custom"><i class="glyphicon glyphicon-menu-hamburger"></i></button>
                         <ul class="navbar_small_links navbar_links">
+<<<<<<< HEAD
                             <li href="site/index">Home</li>
                             <li href="site/science">Science</li>
                             <li href="site/tech">Tech</li>
@@ -62,9 +67,35 @@ AppAsset::register($this);
                         </ul>
                     </div>
 
+=======
+                            <li href="site/index"><?= Yii::t('app','Home') ?></li>
+                            <li href="site/science"><?= Yii::t('app','Science') ?></li>
+                            <li href="site/tech"><?= Yii::t('app','Tech') ?></li>
+                            <li href="site/world"><?= Yii::t('app','World') ?></li>
+                            <li href="site/politics"><?= Yii::t('app','Politics') ?></li>
+                            <li href="site/health"><?= Yii::t('app','Health') ?></li>
+                            <li href="site/contact"><?= Yii::t('app', 'Contact') ?></li>
+                        </ul>
+                    </div>
+                        <select class="languages">
+                            <option value="">languages</option>
+                        <?php
+                            foreach (Yii::$app->params['languages'] as $key => $language) {
+                                echo '<option value="'.$key.'">'.$language.'</option>';
+                            }
+                        ?>      
+                        </select>
+>>>>>>> 037a45e586e584838ce11dbe539eb7cfb0d741c8
                 </div>
             </div>
         </div>
+        <?php 
+
+            var_dump(Yii::$app->session->get('username'));
+
+            var_dump(Yii::$app->user->isGuest);
+
+        ?>
     <div class="container">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
@@ -75,9 +106,9 @@ AppAsset::register($this);
     <div class="container footer-style">
         <p class="pull-left list-style-footer">Copyleft &copy; <?= date('Y')?> by <b>Y-news</b>. All Reversed</p>
         <ul class="secund-navbar navbar_links">
-            <li href="site/index" class="home">Home</li>
-            <li href="site/about" class="about">About</li>
-            <li href="site/contact" class="contact">Contact</li>
+            <li href="site/index" class="home"><?= Yii::t('app', 'Home') ?></li>
+            <li href="site/about" class="about"><?= Yii::t('app', 'About') ?></li>
+            <li href="site/contact" class="contact"><?= Yii::t('app', 'Contact') ?></li>
         </ul>
     </div>
 </div>
@@ -132,9 +163,24 @@ AppAsset::register($this);
    });
   });
 
+  $(function(){
+    $('.languages').on('change', function(){
 
+<<<<<<< HEAD
     </script>
     <!-- <script src="../web/js/jquery.rateyo.js"></script> -->
+=======
+        var lang = $('.languages option:selected').val();
+        var url = "<?= Url::to(['site/language']); ?>";
+        $.post(url,{'lang':lang}, function(data){
+            location.reload();
+        });
+    });
+  });
+
+    </script>
+    <script src="/web/js/jquery.rateyo.js"></script>
+>>>>>>> 037a45e586e584838ce11dbe539eb7cfb0d741c8
 </body>
 </html>
 <?php $this->endPage() ?>
