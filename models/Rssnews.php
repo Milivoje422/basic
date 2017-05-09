@@ -32,10 +32,11 @@ class Rssnews extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['category_id', 'title', 'content', 'datetime', 'raiting', 'preview', 'main_link'], 'required'],
+            [['category_id', 'title', 'content', 'datetime', 'image', 'main_link'], 'required'],
             [['category_id'], 'integer'],
             [['datetime'], 'safe'],
-            [['title', 'content', 'raiting', 'preview', 'main_link'], 'string', 'max' => 255],
+            [['content'], 'string', 'max' => 5000],
+            [['title', 'raiting', 'main_link', 'image'], 'string', 'max' => 255],
         ];
     }
 
@@ -45,15 +46,14 @@ class Rssnews extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'            => 'ID',
-            'category_id'   => 'Category ID',
-            'title'         => 'Title',
-            'content'       => 'Content',
-            'datetime'      => 'Datetime',
-            'raiting'       => 'Raiting',
-            'preview'       => 'Preview',
-            'image'         => 'Image',
-            'main_link'     => 'Main Link',
+            'id'            => Yii::t('app','ID'),
+            'category_id'   => Yii::t('app','Category ID'),
+            'title'         => Yii::t('app','Title'),
+            'content'       => Yii::t('app','Content'),
+            'datetime'      => Yii::t('app','Datetime'),
+            'raiting'       => Yii::t('app','Raiting'),
+            'image'         => Yii::t('app','Image'),
+            'main_link'     => Yii::t('app','Main Link'),
         ];
     }
 }

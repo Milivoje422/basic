@@ -27,8 +27,9 @@ class PostRating extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'post_id', 'raiting_value'], 'required'],
+            [['post_id', 'raiting_value'], 'required'],
             [['id', 'post_id'], 'integer'],
+            [['user_ip'], 'string', 'max' => 255],
             [['raiting_value'], 'string', 'max' => 44],
         ];
     }
@@ -39,9 +40,10 @@ class PostRating extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'post_id' => 'Post ID',
-            'raiting_value' => 'Raiting Value',
+            'id' => Yii::t('app','ID'),
+            'post_id' => Yii::t('app','Post ID'),
+            'user_ip' => Yii::t('app', 'User Ip'),
+            'raiting_value' => Yii::t('app','Raiting Value'),
         ];
     }
 }

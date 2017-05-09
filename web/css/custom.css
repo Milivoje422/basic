@@ -1,9 +1,33 @@
 .body-background
 {
-	background-image: url('../../images/main-background.jpg');
+	background: url('../../images/main_background.png') no-repeat fixed 0 0 rgba(0, 0, 0, 0);
 	background-size: cover;
 	background-repeat: no-repeat;
+    display: table;
+    width: 100%;
+    background-position: 50% 0%;
+    height: 100%;
 }
+.Layer_1 {
+  background-image: url("Layer 1.png");
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 1300px;
+  height: 120px;
+  z-index: 140;
+}
+.Layer_15 {
+  background-image: url("Layer 15.png");
+  position: absolute;
+  left: 0px;
+  top: 11px;
+  width: 1300px;
+  height: 109px;
+  z-index: 141;
+}
+
+
 .secund-navbar
 {
 	padding: 0;
@@ -13,11 +37,13 @@
     margin-right: 30px;
     list-style: none;
 }
+
 .footer-style
 {
 	background: #d3c787;
     border-radius: 5px;
 }
+
 .secund-navbar li
 {
     padding: 10px 20px;
@@ -50,14 +76,14 @@
 {
 	position: relative;
 }
-.navbar-background-img
+/*.navbar-background-img
 {
 	background-image: url('../../images/navbar-background.png');
 	height: 120px;
     margin-top: -40px;
     position: relative;
     background-repeat: repeat-x;
-}
+}*/
 .main-navbar_custom
 {
     margin: 0;
@@ -125,10 +151,7 @@
     padding: 6px 10px;
     
 }
-.box-body
-{
-    /*padding-bottom: 15px;*/
-}
+
 
 .box-body a
 {
