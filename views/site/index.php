@@ -8,9 +8,8 @@ use yii\data\ActiveDataProvider;
 use yii\widgets\LinkPager;
 use app\models\PostRatingSearch;
 use kartik\social\FacebookPlugin;
-/* @var $this yii\web\View */
-/* @var $searchModel app\models\PostSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+use app\models\PostSearch;
+
 
 ?>
 
@@ -33,7 +32,7 @@ use kartik\social\FacebookPlugin;
             $output .= $model['datetime'];
             $output .= '<div class="fb_like_btn"></div><div class="fb_share_btn"></div></div>';
             $output .= '<div class="box-body">';
-            $output .= '<a href='. $model['main_link'] .'><h2>'. $model['title'] .'</h2></a>';
+            $output .= '<a href="#" url-redirect='. $model['main_link'] .' post='.$model['id'].'><h2>'. $model['title'] .'</h2></a>';
             $output .= '<p>' . $model->getContent($model['content']). '... <a href="'.$model['main_link'].'">Read more</a></p>';
              $output .= FacebookPlugin::widget(['type'=>FacebookPlugin::SHARE, 'settings' => ['size'=>'small', 'layout'=>'button_count', 'mobile_iframe'=>'false','href' => $model['main_link']]]);
             $output .= FacebookPlugin::widget(['type'=>FacebookPlugin::LIKE, 'settings' => ['size'=>'small','href' => $model['main_link']]]);
@@ -49,6 +48,22 @@ use kartik\social\FacebookPlugin;
         $output .= "</div>";
         echo $output;
     ?>
+
+<?php 
+    $ttt = new PostSearch();
+
+    $t = $ttt->getPostRating();
+
+    echo "<pre>";
+
+    print_r($t);
+
+
+
+
+?>
+
+
 </div>
 <div class="col-sm-12">
     <div class>

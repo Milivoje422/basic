@@ -56,4 +56,17 @@ class Rssnews extends \yii\db\ActiveRecord
             'main_link'     => Yii::t('app','Main Link'),
         ];
     }
+
+    public function getPostRating()
+    {
+        return $this->hasMany(PostRating::className(), ['post_id' => 'id']);
+    }
+
+    public function getPostVisitors()
+    {
+        return $this->hasMany(PostVisitors::className(), ['post_id' => 'id']);
+    }
+
+
+
 }

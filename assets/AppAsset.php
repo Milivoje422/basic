@@ -23,7 +23,8 @@ class AppAsset extends AssetBundle
         'css/jquery.rateyo.min.css'
     ];
     public $js = [
-        'js/jquery.rateyo.js'
+        'js/jquery.rateyo.js',
+        'js/customJs.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

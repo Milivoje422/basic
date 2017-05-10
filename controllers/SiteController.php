@@ -9,6 +9,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 
+// Called models //
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\Categories;
@@ -16,6 +17,7 @@ use app\models\rssnewsSearch;
 use app\models\PostRating;
 use app\models\PostSearch;
 use app\models\rssnews;
+use app\models\PostVisitors;
 
 use yii\data\SqlDataProvider;
 use yii\data\Pagination;
@@ -184,6 +186,25 @@ class SiteController extends Controller
             // return \yii\helpers\Json::encode($response);
         }   
     }
+
+    public function actionReview()
+    {
+       $model = new PostVisitors();
+
+        if(isset($_POST['post']))
+        {
+            $model->post_id = $_POST['post'];
+            $model->user_ip = $_SERVER['REMOTE_ADDR'];
+
+            if($model->save()){
+                return 1;
+            }
+        }
+       return false;
+    }
+
+
+
 
     /**
      * Displays about page.
