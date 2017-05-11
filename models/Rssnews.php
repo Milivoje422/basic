@@ -3,7 +3,7 @@
 namespace app\models;
 
 use Yii;
-
+use app\models\PostVisitors;
 /**
  * This is the model class for table "rssnews".
  *
@@ -57,13 +57,46 @@ class Rssnews extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getPostRating()
-    {
-        return $this->hasMany(PostRating::className(), ['post_id' => 'id']);
+    public function getRating(){
+        return $this->hasMany(PostRatingSearch::className(), ['post_id' => 'id']);
     }
 
-    public function getPostVisitors()
-    {
+    public function getVisitors(){
         return $this->hasMany(PostVisitors::className(), ['post_id' => 'id']);
+    }     
+
+     public function getContent($content)
+    {
+      $content_text = preg_replace("/<img[^>]+\>/i", " ", $content);
+        return  substr($content_text, 0, 200);
     }
+    
+    public function get_img($content)
+    {
+        preg_match('/<img[^>]+\>/i',$content, $matches1);
+        foreach ($matches1 as $value) {
+            return $value;    
+        }
+    }
+
+    public function ratingFilter($getRating)
+    {
+        $ratings = array();
+        foreach ($getRating as $key => $value) {
+            $ratings[] = $value['raiting_value'];
+        }
+
+        if(array_sum($ratings) !== 0){
+            $totalRating = array_sum($ratings) / count($ratings);
+        }else
+        {
+            $totalRating = 0;
+        }
+
+        if($totalRating >= 5)
+            $totalRating = 5;
+
+        return $totalRating;
+    }
+
 }

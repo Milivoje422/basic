@@ -184,7 +184,7 @@ class SiteController extends Controller
         }   
     }
 
-    // Review function 
+    // Review function which count previews
 
     public function actionReview()
     {
@@ -193,6 +193,8 @@ class SiteController extends Controller
         if(isset($_POST['post']))
         {
             $model->post_id = $_POST['post'];
+
+            // Just get ip address for test project
             $model->user_ip = $_SERVER['REMOTE_ADDR'];
 
             if($model->save()){
@@ -220,10 +222,9 @@ class SiteController extends Controller
     public function actionSearch()
     {
         $model = new Rssnews();
-
-
         return $this->render('search');
     }
+
 
 
 
@@ -231,16 +232,25 @@ class SiteController extends Controller
 
     public function actionCategory($id)
     {
-        $query = PostSearch::find()->where(["category_id" => $id]);
+        // Get posts and sort them according on reviews
+        $query = rssnews::find()
+        ->select(['rssnews.*', 'COUNT(post_visitors.post_id) AS countVisit'])
+        ->where(["category_id" => $id])
+        ->joinWith('visitors')
+        ->groupBy(['rssnews.id'])
+        ->orderBy(['countVisit' => SORT_DESC]);
+
         $countQuery = clone $query;
-        $pages = new Pagination(['defaultPageSize' => 6, 'totalCount' => $countQuery->count()]);
-        $models = $query->offset($pages->offset)
-            ->limit($pages->limit)
-            ->all();
+        $pages = new Pagination(['defaultPageSize' => 4, 'totalCount' => $countQuery->count()]);
+        $models = $query->offset($pages->offset)->limit($pages->limit)->all();
+
+        // Get category according on GET $id | `Category id` 
+        $cat = Categories::find()->where(['id' => $id])->one();
 
         return $this->render('category', [
              'models' => $models,
              'pages' => $pages,
+             'cat' => $cat
         ]);    
     }
 
@@ -276,10 +286,8 @@ class SiteController extends Controller
 
 
     // links for rss and action wcich starts data upload to database 
-
     public function actionRss() 
     {
-
         $cat = Categories::find()->all();
         foreach ($cat as $key => $value) {
             $this->actionPasteRss($value->id, $value->description);

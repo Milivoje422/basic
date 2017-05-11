@@ -91,9 +91,10 @@
 .main_footer
 {
     background: white;
-    position: absolute;
+    position: fixed;
     bottom: 0px;
     width: 100%;
+    z-index: 100;
 }
 .list-style-footer
 {
@@ -139,6 +140,101 @@
     padding: 10px 12px;
     text-align: center;
     color: #52a3c3;
+}
+
+
+
+
+ /*Categories layout boxes*/
+
+ .main_box_layout{
+    border-top: 2px solid #337ab7;
+    background: white;
+    padding: 10px 20px;
+ }
+
+ .cat_name{
+    font-size: 20px;
+    color: #337ab7;
+    font-weight: 700;
+    padding: 1px 20px;
+ }
+
+
+
+ /*categories items*/
+
+.item-box{
+    height: 140px;
+    border-bottom: 1px solid #a7d6ff;
+}
+
+.box-left{
+    float: left;
+    width: 120px;
+    padding: 10px;
+}
+.box-center{
+    float: left;
+    width: 60%;
+    padding: 0px 0px 5px 10px;
+}
+.box-center h3{
+    margin-top:6px;
+    font-size: 18px;
+}
+
+.box-center h3 a{
+    color: black;
+    font-weight: 600;
+}
+
+.box-center p{
+    font-size: 13px;
+}
+
+
+.box-right{
+    float: right;
+    width: 140px;
+    height: 140px;
+}
+
+
+.button_play_box{
+    float: right;
+    padding-bottom: 5px;
+    margin-top: 10px;
+}
+
+.button_play{
+    font-size: 16px;
+    font-weight: 600;
+    padding: 5px 18px;
+    border-radius: 12px;
+    text-transform: uppercase;
+}
+
+.box-review{
+    float: right;
+    padding: 2px 20px;
+}
+
+.box-review span{
+    font-size: 11px;
+}
+
+.stars_style{
+    float: right;
+}
+.social-media-btns{
+    float: right;
+    display: inline-flex;
+    display: -webkit-inline-box;
+    padding: 7px 1px;
+}
+.social-media-btns > .fb-like{
+    padding-right: 4px;
 }
 
 
@@ -191,6 +287,9 @@
     {
         padding-bottom: 10px;
         padding-top: 0px;
+    }
+    .main_box_layout{
+        float: left;
     }
 
 }

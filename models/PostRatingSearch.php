@@ -33,10 +33,10 @@ class PostRatingSearch extends PostRating
         return Model::scenarios();
     }
     
-    public function getPosts()
-    {
-        return $this->hasMany(PostSearch::className(), ['id' => 'post_id']);
-    }
+    // public function getPosts()
+    // {
+    //     return $this->hasMany(PostSearch::className(), ['id' => 'post_id']);
+    // }
 
     /**
      * Creates data provider instance with search query applied

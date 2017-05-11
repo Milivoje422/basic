@@ -58,8 +58,6 @@ AppAsset::register($this);
         <?php 
         NavBar::begin([
             'options' => [
-                // 'class' => 'navbar-nav',
-                // 'role' => 'navigation',
                 'style' => 'background:transparent; border:0px;'
             ],
         ]);
@@ -90,28 +88,20 @@ AppAsset::register($this);
 </div>
         <!-- Use later language switch -->
 
-       <!--  <select class="languages">
+<!--  <select class="languages">
                     <option value="">languages</option>
-                <?php
+ -->                <?php
                     // foreach (Yii::$app->params['languages'] as $key => $language) {
                     //     echo '<option value="'.$key.'">'.$language.'</option>';
                     // }
                 ?>      
-                </select>
-
-                use later !
-
-                 <?php// Breadcrumbs::widget([
-            //'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        //]) ?>
-               -->
-              
+                <!-- </select> -->
 
 
 
-    <div class="container">
+    <div class="container" style="margin-bottom: 100px;">
        
-        <?php // $content ?>
+        <?= $content ?>
     </div>
 <div class="main_footer">
     <div class="col-sm-4 col-xs-6 appName_footer"><h2><?= Yii::$app->params['appname']; ?></h2></div>
@@ -124,8 +114,108 @@ AppAsset::register($this);
     </div>
     <div class="col-sm-4 col-xs-12"><p class="list-style-footer">Copyleft &copy; <?= date('Y')?> by <b>Y-news</b>. All Reversed</p></div>
 </div>
-
 <?php $this->endBody() ?>
+  <script type="text/javascript">
+    // Custom javaSvript and ajax calls for dinamic actions on site.
+
+
+   // integred Google analistic 
+    
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-87323177-1', 'auto');
+      ga('send', 'pageview');
+
+
+  // function for change raiting 
+jQuery(document).ready(function($){
+  $(function () {
+  
+    $(".rateyo").rateYo();
+    $(".rateyo-readonly-widg").each(function() {
+      var item = $(this);
+    item.rateYo({
+         rating: item.data('rating'),
+          numStars: 5,
+          starWidth: "16px",
+          precision: 2,
+          minValue: 1,
+          maxValue: 5
+        }).on("rateyo.set", function (e, data) {
+          console.log($(this).parent());
+
+            var item_id = e.currentTarget.id;
+            var rating = data.rating;
+            var url = "<?= Url::to(['site/rating']); ?>";
+
+
+            // ajax call for raiting
+            $.ajax({
+                method: "POST",
+                data: {item : item_id, data: rating},
+                url: url,
+                success:function(response) {
+                    if(response == 0){
+                        alert("Can't rate!");
+                    }else{
+                        alert("Thanks For Rating!");
+                    }
+                },
+                error:function(data) {
+                    console.log('error');
+                    console.log(data);
+                }
+            });            
+        });
+    });
+    });
+
+      // function for change languages 
+
+      $(function(){
+        $('.languages').on('change', function(){
+
+           var lang = $('.languages option:selected').val();
+            var url = "<?= Url::to(['site/language']); ?>";
+            $.post(url,{'lang':lang}, function(data){
+                location.reload();
+            });
+        });
+      });
+
+      // function for post preview
+
+      $(function(){
+        $('a').on('click',function(){
+          if($(this).attr('post')){
+            var pathTo = "<?= Url::to(['site/review']); ?>";
+            var dataView = {
+              url:$(this).attr('url-redirect'),
+              post:$(this).attr('post') };
+              
+              // ajax call for post review
+              $.ajax({
+                url: pathTo,
+
+                data: dataView,
+                method:"POST",
+                success:function(data){ 
+                  window.location.href = dataView.url;
+                },
+                error:function(data){
+                  console.log(data,'error');
+                }
+              });
+          }
+        });
+      });
+      });
+    </script>
+
+
 </body>
 </html>
 <?php $this->endPage() ?>

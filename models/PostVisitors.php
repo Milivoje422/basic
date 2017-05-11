@@ -44,4 +44,9 @@ class PostVisitors extends \yii\db\ActiveRecord
             'user_ip' => Yii::t('app','User Ip'),
         ];
     }
+
+    public function getPosts()
+    {
+        return $this->hasOne(PostSearch::className(), ['id' => 'post_id']);
+    }
 }

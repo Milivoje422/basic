@@ -20,7 +20,7 @@ class PostSearch extends rssnews
     {
         return [
             [['id', 'category_id'], 'integer'],
-            [['title', 'content', 'datetime', 'raiting', 'preview', 'main_link'], 'safe'],
+            [['title', 'content', 'visitors', 'image', 'main_link'], 'safe'],
         ];
     }
 
@@ -41,50 +41,11 @@ class PostSearch extends rssnews
      * @return ActiveDataProvider
      */
 
-    public function getContent($content)
-    {
-      $content_text = preg_replace("/<img[^>]+\>/i", " ", $content);
-        return  substr($content_text, 0, 200);
-    }
-    
-    public function get_img($content)
-    {
-        preg_match('/<img[^>]+\>/i',$content, $matches1);
-        foreach ($matches1 as $value) {
-            return $value;    
-        }
-    }
-
-    public function getRating()
-    {
-        return $this->hasMany(PostRatingSearch::className(), ['post_id' => 'id']);
-    }
-
-    public function ratingFilter($getRating)
-    {
-        $ratings =array();
-        foreach ($getRating as $key => $value) {
-            $ratings[] = $value['raiting_value'];
-        }
-
-        if(array_sum($ratings) !== 0){
-            $totalRating = array_sum($ratings) / count($ratings);
-        }else
-        {
-            $totalRating = 0;
-        }
-
-        if($totalRating >= 5)
-            $totalRating = 5;
-
-        return $totalRating;
-    }
-
 
     public function search($params)
     {
         $query = rssnews::find();
-        $query = joinWith('postVisitors');
+        $query = joinWith('Visitors');
 
         // add conditions that should always apply here
 
