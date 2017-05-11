@@ -134,16 +134,13 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        if(isset($_GET['query'])){
-            $model = new PostSearch();
-        }else{
-            $query = PostSearch::find()->with('rating');
-            $countQuery = clone $query;
-            $pages = new Pagination(['defaultPageSize' => 6, 'totalCount' => $countQuery->count()]);
-            $models = $query->offset($pages->offset)
-                ->limit($pages->limit)
-                ->all();
-        }
+        $query = PostSearch::find()->with('rating');
+        $countQuery = clone $query;
+        $pages = new Pagination(['defaultPageSize' => 6, 'totalCount' => $countQuery->count()]);
+        $models = $query->offset($pages->offset)
+            ->limit($pages->limit)
+            ->all();
+        
         return $this->render('index', [
              'models' => $models,
              'pages' => $pages,
@@ -187,6 +184,8 @@ class SiteController extends Controller
         }   
     }
 
+    // Review function 
+
     public function actionReview()
     {
        $model = new PostVisitors();
@@ -204,8 +203,6 @@ class SiteController extends Controller
     }
 
 
-
-
     /**
      * Displays about page.
      *
@@ -215,6 +212,20 @@ class SiteController extends Controller
     {
         return $this->render('about');
     }
+
+    public function actionMore(){
+        return $this->render('more');
+    }
+
+    public function actionSearch()
+    {
+        $model = new Rssnews();
+
+
+        return $this->render('search');
+    }
+
+
 
     // category page depends on category id
 
@@ -233,6 +244,7 @@ class SiteController extends Controller
         ]);    
     }
 
+
     // Action for getting a content from rss
 
     public function actionPasteRss($category, $url)
@@ -241,25 +253,27 @@ class SiteController extends Controller
         foreach ($feed->item as $item) {
             $model = new rssnews();
 
-            $time = $item->pubDate; 
-            $formated_time = date('Y-m-d h:i:s');
+                $time = $item->pubDate; 
+                $formated_time = date('Y-m-d h:i:s');
 
-            $value = json_decode(json_encode($item), true);
+                $value = json_decode(json_encode($item), true);
 
-            $model->title       =  $value['title'];
-            $model->content     =  $value['description'];
-            $model->main_link   =  $value['link'];
-            $model->image       =  $value['image'];
-            $model->category_id =  $category;
-            $model->datetime    =  $formated_time;
+                $model->title       =  $value['title'];
+                $model->content     =  $value['description'];
+                $model->main_link   =  $value['link'];
+                $model->image       =  $value['image'];
+                $model->category_id =  $category;
+                $model->datetime    =  $formated_time;
 
             if($model->save()){
+            
             }else{
                 var_dump($model->errors);
             };
         }
       return true;  
     }
+
 
     // links for rss and action wcich starts data upload to database 
 
@@ -272,9 +286,6 @@ class SiteController extends Controller
         }
         return $this->render('rss');
     }
-
-
-
 
     public function actionLanguage()
     {

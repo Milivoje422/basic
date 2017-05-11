@@ -44,10 +44,9 @@ class PostSearch extends rssnews
     public function getContent($content)
     {
       $content_text = preg_replace("/<img[^>]+\>/i", " ", $content);
-
-     return  substr($content_text, 0, 200);
+        return  substr($content_text, 0, 200);
     }
-
+    
     public function get_img($content)
     {
         preg_match('/<img[^>]+\>/i',$content, $matches1);
@@ -85,13 +84,15 @@ class PostSearch extends rssnews
     public function search($params)
     {
         $query = rssnews::find();
+        $query = joinWith('postVisitors');
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort'=> ['defaultOrder' => ['datetime'=>SORT_DESC]],
+            'sort'=> ['defaultOrder' => [count('post_visitors.post_id')=>SORT_DESC]],
         ]);
+
 
         $this->load($params);
 

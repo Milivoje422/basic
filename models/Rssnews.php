@@ -66,7 +66,4 @@ class Rssnews extends \yii\db\ActiveRecord
     {
         return $this->hasMany(PostVisitors::className(), ['post_id' => 'id']);
     }
-
-
-
 }

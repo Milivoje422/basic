@@ -34,8 +34,18 @@ use app\models\PostSearch;
             $output .= '<div class="box-body">';
             $output .= '<a href="#" url-redirect='. $model['main_link'] .' post='.$model['id'].'><h2>'. $model['title'] .'</h2></a>';
             $output .= '<p>' . $model->getContent($model['content']). '... <a href="'.$model['main_link'].'">Read more</a></p>';
-             $output .= FacebookPlugin::widget(['type'=>FacebookPlugin::SHARE, 'settings' => ['size'=>'small', 'layout'=>'button_count', 'mobile_iframe'=>'false','href' => $model['main_link']]]);
-            $output .= FacebookPlugin::widget(['type'=>FacebookPlugin::LIKE, 'settings' => ['size'=>'small','href' => $model['main_link']]]);
+            
+            $output .= 
+            FacebookPlugin::widget(['type'=>
+                FacebookPlugin::SHARE, 'settings' => 
+                ['size'=>'small', 'layout'=>'button_count', 
+                    'mobile_iframe'=>'false','href' => $model['main_link']]]);
+
+            $output .= 
+            FacebookPlugin::widget(['type'=>
+                FacebookPlugin::LIKE, 'settings' => 
+                ['size'=>'small',"data-layout"=>"button",
+                    'href' => $model['main_link']]]);
 
             $output .= '</div>';
             $output .= '</div>';
@@ -48,21 +58,6 @@ use app\models\PostSearch;
         $output .= "</div>";
         echo $output;
     ?>
-
-<?php 
-    $ttt = new PostSearch();
-
-    $t = $ttt->getPostRating();
-
-    echo "<pre>";
-
-    print_r($t);
-
-
-
-
-?>
-
 
 </div>
 <div class="col-sm-12">

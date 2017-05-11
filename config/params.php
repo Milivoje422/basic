@@ -7,4 +7,5 @@ return [
     'ru' => 'russian',
     'en' => 'english',
     ],
+    'appname' => 'BravoArcade',
 ];

@@ -1,12 +1,7 @@
- $('.btn_custom').on('click', function(){
-            $('.navbar_small_links').toggle(400);
-        });
+  // Custom javaSvript for dinamic actions on site.
 
-        $('.navbar_links li').on('click', function(){
-            var base = "/";
-            window.location = base+$(this).attr('href');
-        });
 
+  // integred Google analistic 
     
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -16,13 +11,16 @@
       ga('create', 'UA-87323177-1', 'auto');
       ga('send', 'pageview');
 
+
+  // function for change raiting 
+
   $(function () {
   
     $(".rateyo").rateYo();
     $(".rateyo-readonly-widg").each(function() {
       var item = $(this);
     item.rateYo({
-         rating: item.data('rating'),
+         rating: item.data('/rating'),
           numStars: 5,
           precision: 2,
           minValue: 1,
@@ -34,6 +32,7 @@
             var rating = data.rating; 
             var url = "rating";
 
+            // ajax call for raiting
             $.ajax({
                 method: "POST",
                 data: {item : item_id, data: rating},
@@ -54,6 +53,9 @@
     });
     });
 
+
+  // function for change languages 
+
   $(function(){
     $('.languages').on('change', function(){
 
@@ -65,26 +67,28 @@
     });
   });
 
+
+  // function for post preview
+
   $(function(){
     $('a').on('click',function(){
       if($(this).attr('post')){
-        var data = {
+        var dataView = {
           url:$(this).attr('url-redirect'),
           post:$(this).attr('post') };
-        
+          
+          // ajax call for post review
           $.ajax({
-            url:'site/review',
-            data: data,
+            url:'review',
+            data: dataView,
             method:"POST",
-            success:function(data){
-            console.log(data, "success");
+            success:function(data){ 
+              window.location.href = dataView.url;
             },
             error:function(data){
               console.log(data,'error');
             }
           });
       }
-      return false;
-
     });
   });
