@@ -61,19 +61,9 @@ use kartik\social\FacebookPlugin;
         $output .= "</div>";
         $output .= '</div>';
 
-
-
-        // $output .= '<div class="fb_like_btn"></div><div class="fb_share_btn"></div></div>';
-        // $output .= '<div class="box-body">';
-        // $output .= '<a href='.$model['main_link'].'><h2>'. $model['title'].'</h2></a>';
-        // $output .= '<p>'.$model->getContent($model['content']).'... <a href="'.$model['main_link'].'">Read more</a></p>';
-        // $output .= '</div>';
-        // $output .= '</div>';
-        // $output .= '<div class="stars_style"> 
-        //             <div id="'.$model['id'].'"class="rateyo-readonly-widg" data-preset="true" data-rating="'.$model->ratingFilter($model->rating).'"></div> 
-        //          </div>';
-       $output .= '</div>';
-       $output .= '</div>';
+        
+    $output .= '</div>';
+    $output .= '</div>';
     }
         echo $output;
     ?>

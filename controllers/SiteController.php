@@ -15,7 +15,6 @@ use app\models\ContactForm;
 use app\models\Categories;
 use app\models\rssnewsSearch;
 use app\models\PostRating;
-use app\models\PostSearch;
 use app\models\rssnews;
 use app\models\PostVisitors;
 
@@ -110,6 +109,62 @@ class SiteController extends Controller
     }
 
     /**
+     * Displays homepage.
+     *
+     * @return string
+     */
+    public function actionIndex()
+    {
+        
+        return $this->render('index');
+    }
+
+    /**
+     * Displays about page.
+     *
+     * @return string
+     */
+    public function actionAbout()
+    {
+        return $this->render('about');
+    }
+
+    public function actionMore(){
+        $query = Categories::find()->all();
+
+        return $this->render('more',[
+            'model' => $query ]);
+    }
+
+    public function actionSearch()
+    {
+        $model = new Rssnews();
+        return $this->render('search');
+    }
+
+    // category page depends on category id
+
+    public function actionCategory($id)
+    {
+        // Get posts and sort them according on reviews
+        $query = new rssnews();
+        $query = $query->categorySearch($id);
+
+        $countQuery = clone $query;
+        $pages = new Pagination(['defaultPageSize' => 4, 'totalCount' => $countQuery->count()]);
+        $models = $query->offset($pages->offset)->limit($pages->limit)->all();
+
+        // Get category according on GET $id | `Category id` 
+        $cat = Categories::find()->where(['id' => $id])->one();
+
+        return $this->render('category', [
+             'models' => $models,
+             'pages' => $pages,
+             'cat' => $cat
+        ]);    
+    }
+
+    /**
      * Displays contact page.
      *
      * @return string
@@ -127,25 +182,6 @@ class SiteController extends Controller
         ]);
     }
 
-    /**
-     * Displays homepage.
-     *
-     * @return string
-     */
-    public function actionIndex()
-    {
-        $query = PostSearch::find()->with('rating');
-        $countQuery = clone $query;
-        $pages = new Pagination(['defaultPageSize' => 6, 'totalCount' => $countQuery->count()]);
-        $models = $query->offset($pages->offset)
-            ->limit($pages->limit)
-            ->all();
-        
-        return $this->render('index', [
-             'models' => $models,
-             'pages' => $pages,
-        ]);
-    }
 
     // Rating action with return method if is already rated
 
@@ -202,56 +238,6 @@ class SiteController extends Controller
             }
         }
        return false;
-    }
-
-
-    /**
-     * Displays about page.
-     *
-     * @return string
-     */
-    public function actionAbout()
-    {
-        return $this->render('about');
-    }
-
-    public function actionMore(){
-        return $this->render('more');
-    }
-
-    public function actionSearch()
-    {
-        $model = new Rssnews();
-        return $this->render('search');
-    }
-
-
-
-
-    // category page depends on category id
-
-    public function actionCategory($id)
-    {
-        // Get posts and sort them according on reviews
-        $query = rssnews::find()
-        ->select(['rssnews.*', 'COUNT(post_visitors.post_id) AS countVisit'])
-        ->where(["category_id" => $id])
-        ->joinWith('visitors')
-        ->groupBy(['rssnews.id'])
-        ->orderBy(['countVisit' => SORT_DESC]);
-
-        $countQuery = clone $query;
-        $pages = new Pagination(['defaultPageSize' => 4, 'totalCount' => $countQuery->count()]);
-        $models = $query->offset($pages->offset)->limit($pages->limit)->all();
-
-        // Get category according on GET $id | `Category id` 
-        $cat = Categories::find()->where(['id' => $id])->one();
-
-        return $this->render('category', [
-             'models' => $models,
-             'pages' => $pages,
-             'cat' => $cat
-        ]);    
     }
 
 

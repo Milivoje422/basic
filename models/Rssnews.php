@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use app\models\PostVisitors;
+use yii\data\ActiveDataProvider;
 /**
  * This is the model class for table "rssnews".
  *
@@ -36,7 +37,7 @@ class Rssnews extends \yii\db\ActiveRecord
             [['category_id'], 'integer'],
             [['datetime'], 'safe'],
             [['content'], 'string', 'max' => 5000],
-            [['title', 'raiting', 'main_link', 'image'], 'string', 'max' => 255],
+            [['title', 'rating', 'main_link', 'image'], 'string', 'max' => 255],
         ];
     }
 
@@ -57,18 +58,18 @@ class Rssnews extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getRating(){
-        return $this->hasMany(PostRatingSearch::className(), ['post_id' => 'id']);
+    public function getRaiting(){
+        return $this->hasMany(PostRating::className(), ['post_id' => 'id']);
     }
 
     public function getVisitors(){
         return $this->hasMany(PostVisitors::className(), ['post_id' => 'id']);
     }     
 
-     public function getContent($content)
+     public function getContent($content, $num = 200)
     {
       $content_text = preg_replace("/<img[^>]+\>/i", " ", $content);
-        return  substr($content_text, 0, 200);
+        return  substr($content_text, 0, $num);
     }
     
     public function get_img($content)
@@ -98,5 +99,57 @@ class Rssnews extends \yii\db\ActiveRecord
 
         return $totalRating;
     }
+
+    // Categoty query method 
+    public function categorySearch($id)
+    {
+        // Get posts and sort them according on reviews by ID
+        $query = rssnews::find()
+        ->select(['rssnews.*', 'COUNT(post_visitors.post_id) AS countVisit'])
+        ->where(["category_id" => $id])
+        ->joinWith('visitors')
+        ->groupBy(['rssnews.id'])
+        ->orderBy(['countVisit' => SORT_DESC]);
+
+        return $query;
+    }
+
+    // Query method 
+    public function mostPlayed()
+    {
+        // Get posts and sort them according on reviews
+        $query = rssnews::find()
+        ->select(['rssnews.*', 'COUNT(post_visitors.post_id) AS countVisit'])
+        ->joinWith('visitors')
+        ->limit(22)
+        ->groupBy(['rssnews.id'])
+        ->orderBy(['countVisit' => SORT_DESC])
+        ->all();
+
+        return $query;
+    }
+
+    public function mostRated()
+    {
+        // Get posts and sort them according on rating
+        $query = rssnews::find()
+        ->select(['rssnews.*','SUM(post_rating.raiting_value) AS countRated'])
+        ->joinWith('raiting')
+        ->limit(7)
+        ->groupBy(['rssnews.id'])
+        ->orderBy(['countRated' => SORT_DESC])
+        ->all();
+
+        return $query;
+    }
+
+    public function getRandom($id)
+    {
+        // Get random post for specific id  
+        $query = rssnews::find()->where(["category_id" => $id])->limit(3)->orderBy(['rand()'=>SORT_DESC])->all();
+
+        return $query;
+    }
+
 
 }
