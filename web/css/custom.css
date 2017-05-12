@@ -248,6 +248,11 @@
         padding: 8px 22px;
     }
 }
+@media(max-width: 845px){
+    .box-center{
+        width:50%;
+    }
+}
 @media(max-width: 767px){
     #imaginary_container{
         float: none;
@@ -292,6 +297,25 @@
         float: left;
     }
 
+}
+
+@media(max-width: 700px){
+    .item-box{
+        height: auto;
+    }
+    .box-left{
+        float: none;
+        margin: auto;
+    }
+    .box-center{
+        float: none;
+        margin: auto;
+        width: 80%;
+    }
+    .box-right{
+        float: none;
+        margin: auto;
+    }
 }
 
 @media(max-width: 560px){
