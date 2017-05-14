@@ -3,12 +3,6 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
-use yii\data\ActiveDataProvider;
-use yii\widgets\LinkPager;
-use app\models\PostRatingSearch;
-use kartik\social\FacebookPlugin;
-use app\models\PostSearch;
 use app\widgets\MostPlayedWidget;
 use app\widgets\MostRatedWidget;
 use app\widgets\RandomPostsWidget;

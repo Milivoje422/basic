@@ -18,8 +18,9 @@ use kartik\social\FacebookPlugin;
         <?= $cat['name']?> games
     </div>
 <?php 
+$array = array();
     $output = "";
-    foreach ($models as $model) {  
+    foreach ($models as $model) {        
         $output .= '<div class="col-sm-12 col-xs-12">';
         $output .= '<div class="item-box">';
         
@@ -45,8 +46,10 @@ use kartik\social\FacebookPlugin;
             </a>
         </div>';
         $output .= '<div class="box-review"><span class="glyphicon glyphicon-eye-open"></span>  '. count($model->visitors).'</div>';
+        
         $output .= '<div class="stars_style"> 
-        <div id="'.$model['id'].'"class="rateyo-readonly-widg" data-preset="true" data-rating="'.$model->ratingFilter($model->rating).'"></div></div>';
+        <div id="'.$model['id'].'"class="rateyo-readonly-widg" data-preset="true" data-rating="'.$model->ratingFilter($model['rating']).'"></div></div>';
+
         $output .= "<div class='social-media-btns'>".
         FacebookPlugin::widget(['type'=>
                 FacebookPlugin::LIKE, 'settings' => 

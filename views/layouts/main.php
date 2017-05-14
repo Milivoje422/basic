@@ -10,7 +10,7 @@ use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 use yii\helpers\Url;
 use app\models\Categories;
-
+use app\widgets\RecommendedGamesWidget;
 
 AppAsset::register($this);
 ?>
@@ -102,6 +102,7 @@ AppAsset::register($this);
     <div class="container" style="margin-bottom: 100px;">
        
         <?= $content ?>
+        <?= RecommendedGamesWidget::widget() ?>
     </div>
 <div class="main_footer">
     <div class="col-sm-4 col-xs-6 appName_footer"><h2><?= Yii::$app->params['appname']; ?></h2></div>

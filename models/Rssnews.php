@@ -58,7 +58,7 @@ class Rssnews extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getRaiting(){
+    public function getRating(){
         return $this->hasMany(PostRating::className(), ['post_id' => 'id']);
     }
 
@@ -108,6 +108,7 @@ class Rssnews extends \yii\db\ActiveRecord
         ->select(['rssnews.*', 'COUNT(post_visitors.post_id) AS countVisit'])
         ->where(["category_id" => $id])
         ->joinWith('visitors')
+        ->joinWith('rating')
         ->groupBy(['rssnews.id'])
         ->orderBy(['countVisit' => SORT_DESC]);
 
@@ -134,7 +135,7 @@ class Rssnews extends \yii\db\ActiveRecord
         // Get posts and sort them according on rating
         $query = rssnews::find()
         ->select(['rssnews.*','SUM(post_rating.raiting_value) AS countRated'])
-        ->joinWith('raiting')
+        ->joinWith('rating')
         ->limit(7)
         ->groupBy(['rssnews.id'])
         ->orderBy(['countRated' => SORT_DESC])
@@ -151,5 +152,21 @@ class Rssnews extends \yii\db\ActiveRecord
         return $query;
     }
 
+
+    /**
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    public function recommendedLogic(){
+
+        $query = PostVisitors::find()
+            ->where(['user_ip' => $_SERVER['REMOTE_ADDR']])
+//            ->joinWith('visitors')
+//            ->joinWith('rating')
+            ->limit('10')
+            ->all();
+
+        return $query;
+
+    }
 
 }
