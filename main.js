@@ -9,6 +9,6 @@ var request = require('request');
 var task = cron.schedule('* * 23 * * *', function() {
 
 	// Change URL to the desired URL of your RSS feed
-	request("http://ynews/web/site/rss");
+	request("http://worksite/web/site/rss");
   	console.log('Late update: ' + new Date());
 });

@@ -5,7 +5,6 @@ namespace app\controllers;
 use Yii;
 
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 
@@ -13,14 +12,10 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\Categories;
-use app\models\rssnewsSearch;
 use app\models\PostRating;
 use app\models\rssnews;
 use app\models\PostVisitors;
-
-use yii\data\SqlDataProvider;
 use yii\data\Pagination;
-use yii\data\ActiveDataProvider;
 
 
 
@@ -68,6 +63,9 @@ class SiteController extends Controller
         ];
     }
 
+    /**
+     * Error response page
+     */
     public function actionError()
     {
         $exception = Yii::$app->errorHandler->exception;
@@ -115,7 +113,6 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        
         return $this->render('index');
     }
 
@@ -136,14 +133,28 @@ class SiteController extends Controller
             'model' => $query ]);
     }
 
+    /**
+    * Search model which shows post anyway  sorted by post rate,
+    *
+    * but with query shows posts depends on query
+    */
     public function actionSearch()
     {
-        $model = new Rssnews();
-        return $this->render('search');
+        $query = new rssnews();
+        $query = $query->Search((isset($_GET['search'])? $_GET['search'] : '')); // Get query and paste him into search method as parameter
+
+
+        $countQuery = clone $query;
+        $pages = new Pagination(['defaultPageSize' => 20, 'totalCount' => $countQuery->count()]); // Show only 20 results rest put in pager
+        $models = $query->offset($pages->offset)->limit($pages->limit)->all();
+
+        return $this->render('search',['models' => $models, 'pages' => $pages]); // Return everything to action layout
     }
 
-    // category page depends on category id
 
+    /**
+     * Category page show posts depends on category id
+     */
     public function actionCategory($id)
     {
         // Get posts and sort them according on reviews
@@ -173,10 +184,16 @@ class SiteController extends Controller
     {
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post())) {
+            // Insert to body user ip address and user agent
+            $body = '';
+            $body .= $model->body;
+            $body .= "\r\n".'User ip: '.$_SERVER['REMOTE_ADDR']."\r\n";
+            $body .= 'User Agent: '.$_SERVER['HTTP_USER_AGENT'];
+            $model->body = $body;
+            // If is sent successfully, reload and show success alert box
             if($model->contact($model->email)){
-            Yii::$app->session->setFlash('contactFormSubmitted');
-
-            return $this->refresh();
+                Yii::$app->session->setFlash('contactFormSubmitted');
+                return $this->refresh();
             }
         }
         return $this->render('contact', [
@@ -185,8 +202,11 @@ class SiteController extends Controller
     }
 
 
-    // Rating action with return method if is already rated
-
+    /**
+     * Rating action
+     * Returns boolean false if is already that user rated
+     * Else return true and save that rating
+     */
     public function actionRating()
     {
         $response = "Success";
@@ -197,11 +217,12 @@ class SiteController extends Controller
             $model->post_id = $_POST['item'];
             $model->raiting_value = $_POST['data'];
             $model->user_ip = $_SERVER['REMOTE_ADDR'];
+            $model->created_at = date('Y-m-d h:i:s');
         
             $query = PostRating::find()
-            ->andWhere(['user_ip' => $model->user_ip])
-            ->andWhere(['post_id' => $model->post_id])
-            ->one();
+                ->andWhere(['user_ip' => $model->user_ip])
+                ->andWhere(['post_id' => $model->post_id])
+                ->one();
 
             if($query['post_id']){
                 $response = 0;
@@ -222,8 +243,11 @@ class SiteController extends Controller
         }   
     }
 
-    // Review function which count previews
 
+    /**
+     * Review action
+     * Save any user preview to db
+     */
     public function actionReview()
     {
        $model = new PostVisitors();
@@ -231,6 +255,7 @@ class SiteController extends Controller
         if(isset($_POST['post']))
         {
             $model->post_id = $_POST['post'];
+            $model->created_at = date('Y-m-d h:i:s');
 
             // Just get ip address for test project
             $model->user_ip = $_SERVER['REMOTE_ADDR'];
@@ -243,15 +268,15 @@ class SiteController extends Controller
     }
 
 
-    // Action for getting a content from rss
-
-    public function actionPasteRss($category, $url)
+    /**
+     * Action for getting a content from rss
+     */
+    public function PasteRss($category, $url)
     {
         $feed = Yii::$app->rss_feed->loadRss($url);
         foreach ($feed->item as $item) {
             $model = new rssnews();
 
-                $time = $item->pubDate; 
                 $formated_time = date('Y-m-d h:i:s');
 
                 $value = json_decode(json_encode($item), true);
@@ -264,7 +289,7 @@ class SiteController extends Controller
                 $model->datetime    =  $formated_time;
 
             if($model->save()){
-            
+                return "Success";
             }else{
                 var_dump($model->errors);
             };
@@ -272,17 +297,22 @@ class SiteController extends Controller
       return true;  
     }
 
-
-    // links for rss and action wcich starts data upload to database 
+    /**
+     * Rss action gets category id and link from db,
+     * Loop that info throu
+     */
     public function actionRss() 
     {
         $cat = Categories::find()->all();
         foreach ($cat as $key => $value) {
-            $this->actionPasteRss($value->id, $value->description);
+            $this->PasteRss($value->id, $value->description);
         }
         return $this->render('rss');
     }
 
+    /**
+     * Language method / change language on website
+     */
     public function actionLanguage()
     {
         if(isset($_POST['lang'])){

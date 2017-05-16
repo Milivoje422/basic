@@ -40,7 +40,7 @@ AppAsset::register($this);
         <!-- Search input | global post search --> 
             <div id="imaginary_container"> 
                 <div class="input-group stylish-input-group">
-                <form method="GET" action="search" style="display:inline-table;">
+                <form method="GET" action="<?= url::to(['site/search']) ?>" style="display:inline-table;">
                     <input type="text" name="search" class="form-control"  placeholder="Search" >
                     <span class="input-group-addon">
                         <button type="submit">
@@ -76,8 +76,13 @@ AppAsset::register($this);
         $menuItems[] = ['label' => Yii::t('app','More'), 'url' => ['/site/more']];
         $menuItems[] = ['label' => Yii::t('app','About Us'), 'url' => ['/site/about']];
         $menuItems[] = ['label' => Yii::t('app','Contact'), 'url' => ['/site/contact']];
-            // if (!Yii::$app->user->isGuest && Yii::$app->user->identity->isAdmin)
-            //     $menuItems[] = ['label' => Yii::t('user','Admins permissions'), 'url' => ['/user/admin/index']];
+             if (!Yii::$app->user->isGuest && Yii::$app->user->identity->username == "admin") {
+                 $menuItems[] = ['label' => Yii::t('app', 'Admin'), 'url' => ['/user/admin/index']];
+
+                 $menuItems[] = Html::beginForm(['/user/logout'], 'post');
+                 $menuItems[] = Html::submitButton(Yii::t('app','Logout')."Logout");
+                 $menuItems[] = Html::endForm();
+             }
 
         echo Nav::widget([
             'options' => ['class' => 'navbar-nav'],
@@ -102,7 +107,7 @@ AppAsset::register($this);
     <div class="container" style="margin-bottom: 100px;">
        
         <?= $content ?>
-        <?= RecommendedGamesWidget::widget() ?>
+        <?php //RecommendedGamesWidget::widget() ?>
     </div>
 <div class="main_footer">
     <div class="col-sm-4 col-xs-6 appName_footer"><h2><?= Yii::$app->params['appname']; ?></h2></div>
@@ -113,7 +118,7 @@ AppAsset::register($this);
             <li href="site/contact" class="contact"><?= Yii::t('app', 'Contact') ?></li>
         </ul>
     </div>
-    <div class="col-sm-4 col-xs-12"><p class="list-style-footer">Copyleft &copy; <?= date('Y')?> by <b>Y-news</b>. All Reversed</p></div>
+    <div class="col-sm-4 col-xs-12"><p class="list-style-footer">Copyleft &copy; <?= date('Y')?> by <b>BravoArcade</b>. All Reversed</p></div>
 </div>
 <?php $this->endBody() ?>
   <script type="text/javascript">
@@ -134,7 +139,7 @@ AppAsset::register($this);
   // function for change raiting 
 jQuery(document).ready(function($){
   $(function () {
-  
+
     $(".rateyo").rateYo();
     $(".rateyo-readonly-widg").each(function() {
       var item = $(this);
@@ -160,7 +165,7 @@ jQuery(document).ready(function($){
                 url: url,
                 success:function(response) {
                     if(response == 0){
-                        alert("Can't rate!");
+                        alert("You already rated this game!");
                     }else{
                         alert("Thanks For Rating!");
                     }
@@ -213,7 +218,63 @@ jQuery(document).ready(function($){
           }
         });
       });
+
       });
+    jQuery(document).ready(function($) {
+//        $(document).ready(function(ev){
+//            var items = $(".nav li").length;
+//            var leftRight=0;
+//            if(items>5){
+//                leftRight=(items-5)*50*-1;
+//            }
+//            $('#custom_carousel').on('slide.bs.carousel', function (evt) {
+//
+//
+//                $('#custom_carousel .controls li.active').removeClass('active');
+//                $('#custom_carousel .controls li:eq('+$(evt.relatedTarget).index()+')').addClass('active');
+//            })
+//            $('.nav').draggable({
+//                axis: "x",
+//                stop: function() {
+//                    var ml = parseInt($(this).css('left'));
+//                    if(ml>0)
+//                        $(this).animate({left:"0px"});
+//                    if(ml<leftRight)
+//                        $(this).animate({left:leftRight+"px"});
+//
+//                }
+//
+//            });
+//        });
+//        (function(){
+//
+////            $('#itemslider').carousel({ interval: 10000 });
+//        }());
+//
+//        (function(){
+//            $('.carousel-showmanymoveone .item').each(function(){
+//                var itemToClone = $(this);
+////                console.log(itemToClone);
+//                for (var i= 1;i<10;i++) {
+//
+////                    console.log(itemToClone);
+//                    itemToClone = itemToClone.next();
+//
+////                    console.log(itemToClone.length);
+//                    if (!itemToClone.length) {
+//                        itemToClone = $(this).siblings(':first');
+////                        console.log(itemToClone.length);
+//                    }
+//
+//
+//                    itemToClone.children(':first-child').clone()
+//                        .addClass("cloneditem-"+(i))
+//                        .appendTo($(this));
+//                }
+//            });
+//        }());
+
+    });
     </script>
 
 

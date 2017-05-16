@@ -3,8 +3,7 @@
 namespace app\models;
 
 use Yii;
-use app\models\PostVisitors;
-use yii\data\ActiveDataProvider;
+use yii\db\ActiveRecord;
 /**
  * This is the model class for table "rssnews".
  *
@@ -17,7 +16,7 @@ use yii\data\ActiveDataProvider;
  * @property string $preview
  * @property string $main_link
  */
-class Rssnews extends \yii\db\ActiveRecord
+class Rssnews extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -43,6 +42,9 @@ class Rssnews extends \yii\db\ActiveRecord
 
     /**
      * @inheritdoc
+     *
+     * Class attributes
+     *
      */
     public function attributeLabels()
     {
@@ -58,20 +60,32 @@ class Rssnews extends \yii\db\ActiveRecord
         ];
     }
 
+        /* ======== Relation ======== */
+
     public function getRating(){
         return $this->hasMany(PostRating::className(), ['post_id' => 'id']);
     }
 
     public function getVisitors(){
         return $this->hasMany(PostVisitors::className(), ['post_id' => 'id']);
-    }     
+    }
 
-     public function getContent($content, $num = 200)
+          /* ======== End ======== */
+
+
+    /**
+     * Get content , remove img tags from content and get me only 200 characters
+     *
+     */
+    public function getContent($content, $num = 200)
     {
       $content_text = preg_replace("/<img[^>]+\>/i", " ", $content);
         return  substr($content_text, 0, $num);
     }
-    
+
+    /**
+     * Get img from content / method is not in use right now
+     */
     public function get_img($content)
     {
         preg_match('/<img[^>]+\>/i',$content, $matches1);
@@ -80,6 +94,9 @@ class Rssnews extends \yii\db\ActiveRecord
         }
     }
 
+    /**
+     * Get all rating from array parameter and calculate into one result
+     */
     public function ratingFilter($getRating)
     {
         $ratings = array();
@@ -100,7 +117,11 @@ class Rssnews extends \yii\db\ActiveRecord
         return $totalRating;
     }
 
-    // Categoty query method 
+    /**
+     * Category query method / depends on category id
+     *
+     * @return $query
+     */
     public function categorySearch($id)
     {
         // Get posts and sort them according on reviews by ID
@@ -115,7 +136,13 @@ class Rssnews extends \yii\db\ActiveRecord
         return $query;
     }
 
-    // Query method 
+
+    /**
+     * MostPlayed games query method
+     * return games depends by mysql query
+     *
+     * @return $query
+     */
     public function mostPlayed()
     {
         // Get posts and sort them according on reviews
@@ -130,11 +157,18 @@ class Rssnews extends \yii\db\ActiveRecord
         return $query;
     }
 
+
+    /**
+     * MostRated games query method
+     * return games depends by mysql query
+     *
+     * @return $query
+     */
     public function mostRated()
     {
         // Get posts and sort them according on rating
         $query = rssnews::find()
-        ->select(['rssnews.*','SUM(post_rating.raiting_value) AS countRated'])
+        ->select(['rssnews.*','SUM(post_rating.raiting_value) / COUNT(post_rating.raiting_value) AS countRated'])
         ->joinWith('rating')
         ->limit(7)
         ->groupBy(['rssnews.id'])
@@ -144,6 +178,13 @@ class Rssnews extends \yii\db\ActiveRecord
         return $query;
     }
 
+
+    /**
+     * Get random games depends on @id for which category
+     * Rest logic finished in controller / here only a query
+     *
+     * @return $query
+     */
     public function getRandom($id)
     {
         // Get random post for specific id  
@@ -155,18 +196,69 @@ class Rssnews extends \yii\db\ActiveRecord
 
     /**
      * @return array|\yii\db\ActiveRecord[]
+     *
+     * Have to finish
      */
     public function recommendedLogic(){
 
+
+        //$query = "SELECT rssnews.id, rssnews.category_id FROM post_visitors
+        //INNER JOIN rssnews ON post_visitors.post_id=rssnews.id
+        //ORDER BY post_visitors.post_id DESC
+        //LIMIT 10";
+
+//        $return = rssnews::findBySQL($query)->all();
+//        return $return;
+
+
+
         $query = PostVisitors::find()
-            ->where(['user_ip' => $_SERVER['REMOTE_ADDR']])
-//            ->joinWith('visitors')
-//            ->joinWith('rating')
+          ->select('rssnews.id, rssnews.category_id')
+//            ->where(['user_ip' => $_SERVER['REMOTE_ADDR']])
+            ->joinWith('rssnews')
+//            ->orderBy(['post_id' => SORT_ASC])
             ->limit('10')
             ->all();
 
         return $query;
 
     }
+
+
+    /**
+     * Global search query
+     * If there is no query then return all posts query sorted by best rating
+     *
+     * Search for games which looking for game Title and content
+     * return query depends by request
+     * Rest logic finished in controller
+     *
+     * @return $query
+     */
+    public function Search($query){
+
+        $model = rssnews::find()
+            ->select(['rssnews.*','SUM(post_rating.raiting_value) / COUNT(post_rating.raiting_value) AS countRated'])
+            ->joinWith('rating')
+            ->groupBy(['rssnews.id'])
+            ->orderBy(['countRated' => SORT_DESC]);
+
+        if(!empty($query)){
+            $model = rssnews::find();
+
+            $model->andFilterWhere(['like', 'title', $query])
+                  ->andFilterWhere(['like', 'content', $query]);
+        }
+
+        return $model;
+    }
+
+
+
+
+
+
+
+
 
 }

@@ -24,7 +24,7 @@ $array = array();
         $output .= '<div class="col-sm-12 col-xs-12">';
         $output .= '<div class="item-box">';
         
-        // image section 
+        // image section
         $output .= '<div class="box-left">';
         $output .= '<img src="'.$model['image'].'" class="post_img_class"/>';
         $output .= '</div>';

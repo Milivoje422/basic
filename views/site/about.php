@@ -20,7 +20,7 @@
   <div class="site-contact">
     <div class="box-header header_height"></div>
         <div class="row">
-            <div class="contact_box col-lg-10 col-sm-10 col-xs-10" style="padding: 45px;">
+            <div class="contact_box col-lg-10 col-sm-10 col-xs-10" style="padding: 45px;" onselectstart="return false;" oncontextmenu="return false;" onkeydown="return false;" onmousedown="return false;">
                 Text Matters is a UK-based information design consultancy, established in Reading in 1990 by partners Mark Barratt and Sue Walker.
                 We use our experience in language, design, systems and process improvement to deal with communication issues in a way that is focused on users. We work in print and electronic media, and specialise in explaining things through:
                 clear language
@@ -33,3 +33,16 @@
             </div>
         </div>
 </div>
+<script type="text/javascript">
+    window.oncontextmenu = function () {
+        return false;
+    }
+    $(document).keydown(function (event) {
+        if (event.keyCode == 123) {
+            return false;
+        }
+        else if ((event.ctrlKey && event.shiftKey && event.keyCode == 73) || (event.ctrlKey && event.shiftKey && event.keyCode == 74)) {
+            return false;
+        }
+    });
+</script>

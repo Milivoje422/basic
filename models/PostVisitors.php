@@ -30,6 +30,7 @@ class PostVisitors extends \yii\db\ActiveRecord
         return [
             [['post_id', 'user_ip'], 'required'],
             [['post_id'], 'integer'],
+            [['created_at'], 'safe'],
             [['user_ip'], 'string', 'max' => 44],
         ];
     }
@@ -43,6 +44,7 @@ class PostVisitors extends \yii\db\ActiveRecord
             'id' => 'ID',
             'post_id' => Yii::t('app','Post ID'),
             'user_ip' => Yii::t('app','User Ip'),
+            'created_at' => Yii::t('app','Created Time'),
         ];
     }
 

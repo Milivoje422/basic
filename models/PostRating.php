@@ -31,6 +31,7 @@ class PostRating extends \yii\db\ActiveRecord
             [['id', 'post_id'], 'integer'],
             [['user_ip'], 'string', 'max' => 255],
             [['raiting_value'], 'string', 'max' => 44],
+            [['created_at'], 'safe'],
         ];
     }
 
@@ -44,6 +45,7 @@ class PostRating extends \yii\db\ActiveRecord
             'post_id' => Yii::t('app','Post ID'),
             'user_ip' => Yii::t('app', 'User Ip'),
             'raiting_value' => Yii::t('app','Raiting Value'),
+            'created_at' => Yii::t('app','Started Time'),
         ];
     }
 }

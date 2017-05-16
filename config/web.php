@@ -57,16 +57,16 @@ $config = [
         ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-            'cookieValidationKey' => 'testCookie',
+            'cookieValidationKey' => '4534',
             'parsers' => [
-            'aplication/json' => 'yii\web\JsonParser',
+                'application/json' => 'yii\web\JsonParser',
             ],
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            'identityClass' => 'app\models\Users',
+            'identityClass' => 'app\models\User',
             'enableAutoLogin' => false,
             'enableSession' => true,
         ],
@@ -91,13 +91,10 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                'class' => 'yii\rest\UrlRule',
-                'controller' => 'rest',
-                // 'tokens' => [
-                //     '{id}' => '<id:\\w+>',
-                // ],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'post'],
             ],
         ],
+
         'rss_feed' => array(
             'class' => 'app\yii2\feed',
         ),
