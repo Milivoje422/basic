@@ -52,4 +52,8 @@ class PostVisitors extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Rssnews::className(), ['id' => 'post_id']);
     }
+
+    public function getAll(){
+        return PostVisitors::find()->where(['user_ip' => $_SERVER['REMOTE_ADDR']])->all();
+    }
 }
