@@ -27,7 +27,7 @@ class RecommendedGamesWidget extends Widget
         $model = new PostVisitors();
         $posts = new rssnews();
         $model = $model->getAll();
-        if(count($model) > 10){
+        if(count($model) >= 10){
             $posts = $posts->recommendedLogic();
             $cats = array();
             $post = array();

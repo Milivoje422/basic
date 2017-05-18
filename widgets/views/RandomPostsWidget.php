@@ -1,4 +1,4 @@
-<div class="col-sm-12 widget_box_layout">
+<div class="col-sm-12 col-xs-12 widget_box_layout">
     <?php foreach($model as $key => $val){ ?>
     	<div class="col-sm-4">
 	    	<div class="widget_name" style="padding-bottom: 20px;">

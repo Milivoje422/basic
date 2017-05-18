@@ -7,42 +7,44 @@
 	use yii\helpers\Html;
 	use yii\bootstrap\ActiveForm;
 	use yii\captcha\Captcha;
+    use app\assets\AboutUsJs;
+
+    AboutUsJs::register($this);
 ?>
-<div class="col-sm-12">
-    <h1 style="border-bottom: 2px solid black; padding-bottom:20px; margin-bottom: 20px;">
-        <strong>
-            <center>
-                About us
-            </center>
-        </strong>
-    </h1>
-  </div>
-  <div class="site-contact">
-    <div class="box-header header_height"></div>
+
+<div class="col-sm-12 col-xs-12 widget_box_layout" onselectstart="return false;" oncontextmenu="return false;" onkeydown="return false;" onmousedown="return false;">
+    <div class="widget_name">
+        <?= Yii::t('app','About us'); ?>
+    </div>
         <div class="row">
-            <div class="contact_box col-lg-10 col-sm-10 col-xs-10" style="padding: 45px;" onselectstart="return false;" oncontextmenu="return false;" onkeydown="return false;" onmousedown="return false;">
-                Text Matters is a UK-based information design consultancy, established in Reading in 1990 by partners Mark Barratt and Sue Walker.
-                We use our experience in language, design, systems and process improvement to deal with communication issues in a way that is focused on users. We work in print and electronic media, and specialise in explaining things through:
-                clear language
-                typography and graphic design
-                research and copywriting
-                process analysis.
-                We have a core team with skills ranging from copywriting and editing for clear language, to form design for print and screen, to structured documents for parallel publishing.
-                In addition we can call on experts and consultants who provide support in specific areas such as database-driven websites, and electronic forms.
-                We have contacts in the industry with complementary skills enabling us to further increase our resources on an as-needed basis.
+            <div class="contact_box col-lg-10 col-sm-10 col-xs-10">
+                <h3>The standard Lorem Ipsum passage, used since the 1500s</h3>
+                <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+                <p>
+                Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam,
+                    eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+                    Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
+                    Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit,
+                    sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.
+                    Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam,
+                    nisi ut aliquid ex ea commodi consequatur?
+                    Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur,
+                    vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
+                    </p>
+                <p>
+                At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident,
+                    similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.
+                    Et harum quidem rerum facilis est et expedita distinctio.
+                    Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus,
+                    omnis voluptas assumenda est, omnis dolor repellendus.
+                    Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.
+                    Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.
+                </p>
             </div>
         </div>
 </div>
-<script type="text/javascript">
-    window.oncontextmenu = function () {
-        return false;
-    }
-    $(document).keydown(function (event) {
-        if (event.keyCode == 123) {
-            return false;
-        }
-        else if ((event.ctrlKey && event.shiftKey && event.keyCode == 73) || (event.ctrlKey && event.shiftKey && event.keyCode == 74)) {
-            return false;
-        }
-    });
-</script>

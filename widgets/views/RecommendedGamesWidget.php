@@ -8,9 +8,10 @@
 ?>
 
 
-<div class="col-sm-12 widget_box_layout">
+<div class="col-sm-12 col-xs-12 widget_box_layout recommended-games-style" style="float:left">
     <div class="widget_name">
         <?= Yii::t('app','Recommended Games') ?>
+        <span class="close" style="float right;">&times;</span>
 </div>
 <div class="widget_box">
     <?php

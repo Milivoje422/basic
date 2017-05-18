@@ -1,4 +1,4 @@
-<div class="col-sm-12 widget_box_layout">
+<div class="col-sm-12 col-xs-12 widget_box_layout">
     <div class="widget_name">
         <?= Yii::t('app','Most Rated') ?>
     </div>

@@ -7,15 +7,12 @@ use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
-use app\assets\BootstrapModalAsset;
 use app\assets\AppAsset;
 use yii\helpers\Url;
 use app\models\Categories;
 use app\widgets\RecommendedGamesWidget;
 
 AppAsset::register($this);
-
-//BootstrapModalAsset::register($this);
 ?>
     <!-- Main layout -->
 
@@ -110,7 +107,6 @@ AppAsset::register($this);
     <div class="container" style="margin-bottom: 100px;">
        
         <?= $content ?>
-        <?php //RecommendedGamesWidget::widget() ?>
     </div>
 <div class="main_footer">
     <div class="col-sm-4 col-xs-6 appName_footer"><h2><?= Yii::$app->params['appname']; ?></h2></div>
@@ -121,87 +117,14 @@ AppAsset::register($this);
             <li href="site/contact" class="contact"><?= Yii::t('app', 'Contact') ?></li>
         </ul>
     </div>
-    <!-- Button trigger modal -->
 
-    <style>
-        /* The Modal (background) */
-        .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 1; /* Sit on top */
-            padding-top: 100px; /* Location of the box */
-            left: 0;
-            top: 0;
-            transition: all 500ms;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgb(0,0,0); /* Fallback color */
-            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-        }
 
-        /* Modal Content */
-        .modal-content {
-            background-color: #fefefe;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-        }
+       <div id="recommendedModal" class="modal">
+            <div class="modal-content">
+                <p><?= RecommendedGamesWidget::widget() ?></p>
+            </div>
 
-        /* The Close Button */
-        .close {
-            color: #aaaaaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: #000;
-            text-decoration: none;
-            cursor: pointer;
-        }
-    </style>
-    <button id="myBtn">Open Modal</button>
-
-    <!--    <div id="myModal" class="modal">-->
-    <!--        <div class="modal-content">-->
-    <!--            <span class="close">&times;</span>-->
-    <!--            <p>--><?// RecommendedGamesWidget::widget() ?><!--</p>-->
-    <!--        </div>-->
-
-    <!--    </div>-->
-
-    <script>
-        // Get the modal
-        var modal = document.getElementById('myModal');
-
-        // Get the button that opens the modal
-        var btn = document.getElementById("myBtn");
-
-        // Get the <span> element that closes the modal
-        var span = document.getElementsByClassName("close")[0];
-
-        // When the user clicks the button, open the modal
-        btn.onclick = function() {
-            modal.style.display = "block";
-        }
-
-        // When the user clicks on <span> (x), close the modal
-        span.onclick = function() {
-            modal.style.display = "none";
-        }
-
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-    </script>
-
+        </div>
     <!-- ===========END=========== -->
 
     <div class="col-sm-4 col-xs-12"><p class="list-style-footer">Copyleft &copy; <?= date('Y')?> by <b>BravoArcade</b>. All Reversed</p></div>
@@ -209,8 +132,6 @@ AppAsset::register($this);
 <?php $this->endBody() ?>
   <script type="text/javascript">
     // Custom javaSvript and ajax calls for dinamic actions on site.
-
-
    // integred Google analistic 
     
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -220,7 +141,6 @@ AppAsset::register($this);
 
       ga('create', 'UA-87323177-1', 'auto');
       ga('send', 'pageview');
-
 
   // function for change raiting 
 jQuery(document).ready(function($){
@@ -265,8 +185,7 @@ jQuery(document).ready(function($){
     });
     });
 
-      // function for change languages 
-
+      // function for change languages
       $(function(){
         $('.languages').on('change', function(){
 
@@ -304,19 +223,66 @@ jQuery(document).ready(function($){
           }
         });
       });
+});
 
-      });
+    // Logic for recommended modal
 
-
+    function setCookie() {
         var user_ip = "<?= $_SERVER['REMOTE_ADDR']; ?>";
         var now = new Date();
         var expire = new Date();
         expire.setFullYear(now.getFullYear());
         expire.setMonth(now.getMonth());
         expire.setDate(now.getDate());
-        expire.setHours(now.getHours()+3);
+        expire.setHours(now.getHours() + 3);
         expire.setMinutes(0);
-        document.cookie = 'recommended_lightbox'+"="+user_ip+"; expires=" + expire.toString() +"; path=" + 'user';
+        document.cookie = 'recommended_lightbox' + "=" + user_ip + "; expires=" + expire.toString() + "; path=" + 'user';
+    }
+
+    function readCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0;i < ca.length;i++) {
+            var c = ca[i];
+            while (c.charAt(0)==' ') c = c.substring(1,c.length);
+            if (c.indexOf(nameEQ) == 0) return true;
+        }
+        return null;
+    }
+
+    // Get the modal
+    var modal = document.getElementById('recommendedModal');
+
+    if(readCookie('recommended_lightbox')!== true){
+        $(document).ready(function(){
+            setTimeout(function(){
+                $('#recommendedModal').fadeIn();
+            },15000)
+        });
+
+        $('.close').on('click',function() {
+            $('#recommendedModal').fadeOut();
+            setCookie();
+        });
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                $('#recommendedModal').fadeOut();
+                setCookie();
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
 
 
     jQuery(document).ready(function($) {
