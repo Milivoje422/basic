@@ -1,4 +1,4 @@
-    <?php
+<?php
 
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
@@ -7,12 +7,16 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\captcha\Captcha;
-
-
+use app\widgets\MainSliderWidget;
 
 ?>
-
-
+<div class="widgets_index">
+    <div class="widget_ col-sm-12">
+        <div class="row">
+            <?= MainSliderWidget::widget() ?>
+        </div>
+    </div>
+</div>
 <div class="col-sm-12 col-xs-12 main_box_layout">
     <div class="cat_name">
         <?= Yii::t('app','Contact Us'); ?>
@@ -23,8 +27,7 @@ use yii\captcha\Captcha;
         </div>
     <?php else: ?>
         <div class="contact_box">
-            <h3 class="contact-box-text"><b>If you have business inquiries or other questions, please fill out the following
-                form to contact us. Thank you.</b></h3>
+            <h3 class="contact-box-text"><b><?= Yii::t('app','If you have business inquiries or other questions, please fill out the following form to contact us. Thank you.') ?></b></h3>
             <?php $form = ActiveForm::begin(['id' => 'contact-form']); ?>
                 <?= $form->field($model, 'name',[
                     'template' => '<div class="col-sm-1 col-xs-12">{label}</div><div class="col-sm-11 col-xs-12">{input}</div>.'])->textInput(['autofocus' => true]) ?>

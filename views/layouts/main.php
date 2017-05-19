@@ -30,7 +30,7 @@ AppAsset::register($this);
 <body class="body-background">
 <?php $this->beginBody() ?>
 <?php $cat = Categories::find()->all(); ?>
-<div class="navbar-background" style="background: linear-gradient(to bottom, #52a3c3, #185873);">
+<div class="navbar-background">
     <div class="container">
         <div class="col-sm-6 col-xs-12 left-title">
             <h2><?= Yii::$app->params['appname']; ?></h2>
@@ -77,11 +77,8 @@ AppAsset::register($this);
         $menuItems[] = ['label' => Yii::t('app','About Us'), 'url' => ['/site/about']];
         $menuItems[] = ['label' => Yii::t('app','Contact'), 'url' => ['/site/contact']];
              if (!Yii::$app->user->isGuest && Yii::$app->user->identity->username == "admin") {
-                 $menuItems[] = ['label' => Yii::t('app', 'Admin'), 'url' => ['/user/admin/index']];
+                 $menuItems[] = ['label' => Yii::t('app', 'Admin'), 'url' => ['/admin/index']];
 
-                 $menuItems[] = Html::beginForm(['/user/logout'], 'post');
-                 $menuItems[] = Html::submitButton(Yii::t('app','Logout')."Logout");
-                 $menuItems[] = Html::endForm();
              }
 
         echo Nav::widget([
@@ -91,23 +88,20 @@ AppAsset::register($this);
         NavBar::end(); ?>
     <!-- End Nav Bar -->
 </div>
-        <!-- Use later language switch -->
 
-<!--  <select class="languages">
-                    <option value="">languages</option>
- -->                <?php
-                    // foreach (Yii::$app->params['languages'] as $key => $language) {
-                    //     echo '<option value="'.$key.'">'.$language.'</option>';
-                    // }
-                ?>      
-                <!-- </select> -->
-
-
-
+<!-- Use later language switch -->
+     <select class="languages">
+        <option value="">languages</option>
+        <?php foreach (Yii::$app->params['languages'] as $key => $language) { echo '<option value="'.$key.'">'.$language.'</option>'; } ?>
+     </select>
+<!-- =======END======= -->
+<!-- Content for pages-->
     <div class="container" style="margin-bottom: 100px;">
-       
         <?= $content ?>
     </div>
+<!-- =======END=======-->
+
+<!--Footer-->
 <div class="main_footer">
     <div class="col-sm-4 col-xs-6 appName_footer"><h2><?= Yii::$app->params['appname']; ?></h2></div>
     <div class="col-sm-4 col-xs-6 nav_footer">
@@ -117,18 +111,20 @@ AppAsset::register($this);
             <li href="site/contact" class="contact"><?= Yii::t('app', 'Contact') ?></li>
         </ul>
     </div>
-
-
-       <div id="recommendedModal" class="modal">
-            <div class="modal-content">
-                <p><?= RecommendedGamesWidget::widget() ?></p>
-            </div>
-
-        </div>
-    <!-- ===========END=========== -->
-
     <div class="col-sm-4 col-xs-12"><p class="list-style-footer">Copyleft &copy; <?= date('Y')?> by <b>BravoArcade</b>. All Reversed</p></div>
 </div>
+<!--Footer END-->
+
+<!--Recommended games modal-->
+
+    <div id="recommendedModal" class="modal">
+        <div class="modal-content">
+            <p><?= RecommendedGamesWidget::widget() ?></p>
+        </div>
+    </div>
+
+<!-- ===========END=========== -->
+
 <?php $this->endBody() ?>
   <script type="text/javascript">
     // Custom javaSvript and ajax calls for dinamic actions on site.
@@ -273,16 +269,6 @@ jQuery(document).ready(function($){
             }
         }
     }
-
-
-
-
-
-
-
-
-
-
 
 
     jQuery(document).ready(function($) {

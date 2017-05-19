@@ -2,17 +2,18 @@
 
 <?php
 
-use yii\helpers\Html;
-use yii\grid\GridView;
-use yii\data\ActiveDataProvider;
 use yii\widgets\LinkPager;
 use kartik\social\FacebookPlugin;
-
-/* @var $this yii\web\View */
-/* @var $searchModel app\models\PostSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
-
+use app\widgets\MainSliderWidget;
 ?>
+
+<div class="widgets_index">
+    <div class="widget_ col-sm-12">
+        <div class="row">
+            <?= MainSliderWidget::widget() ?>
+        </div>
+    </div>
+</div>
 <div class="col-sm-12 main_box_layout">
     <div class="cat_name">
         <?= Yii::t('app',"Search Games") ?>
@@ -41,7 +42,7 @@ use kartik\social\FacebookPlugin;
         $output .= '<div class="box-right">';
         $output .=
             '<div class="button_play_box">
-            <a href="#" class="btn btn-warning button_play" role="button">'.Yii::t('app','Play now').'
+            <a href="#" url-redirect='.$model['main_link'].' post='.$model['id'].' class="btn btn-warning button_play" role="button">'.Yii::t('app','Play now').'
             <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
             </a>
         </div>';
@@ -63,7 +64,6 @@ use kartik\social\FacebookPlugin;
                     'mobile_iframe'=>'false','href' => $model['main_link']]]);
         $output .= "</div>";
         $output .= '</div>';
-
 
         $output .= '</div>';
         $output .= '</div>';

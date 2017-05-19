@@ -4,14 +4,19 @@
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model app\models\ContactForm */
 
-	use yii\helpers\Html;
-	use yii\bootstrap\ActiveForm;
-	use yii\captcha\Captcha;
     use app\assets\AboutUsJs;
+    use app\widgets\MainSliderWidget;
 
     AboutUsJs::register($this);
-?>
 
+?>
+<div class="widgets_index">
+    <div class="widget_ col-sm-12">
+        <div class="row">
+            <?= MainSliderWidget::widget() ?>
+        </div>
+    </div>
+</div>
 <div class="col-sm-12 col-xs-12 widget_box_layout" onselectstart="return false;" oncontextmenu="return false;" onkeydown="return false;" onmousedown="return false;">
     <div class="widget_name">
         <?= Yii::t('app','About us'); ?>

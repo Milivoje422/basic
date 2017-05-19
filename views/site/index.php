@@ -11,7 +11,6 @@
 	<div class="widget_ col-sm-12">
 		<div class="row">
 			<?= MainSliderWidget::widget() ?>
-
 		</div>
 	</div>
 	<div class="widget_ col-sm-12">

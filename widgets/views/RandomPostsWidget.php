@@ -2,7 +2,7 @@
     <?php foreach($model as $key => $val){ ?>
     	<div class="col-sm-4">
 	    	<div class="widget_name" style="padding-bottom: 20px;">
-	    		<?= Yii::t('app', $key) ?> Games
+	    		<?= Yii::t('app', $key.' Games') ?>
 	    	</div>
 	    	<?php foreach ($val as $key => $value) { ?>
 	    		<div class="col-sm-12 col-xs-12 widget_items_">

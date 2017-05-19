@@ -35,6 +35,18 @@ class LoginForm extends Model
         ];
     }
 
+
+    /**
+     * @return array customized attribute labels
+     */
+    public function attributeLabels()
+    {
+        return [
+            'password' => Yii::t('app','Password'),
+            'username' => Yii::t('app','Username'),
+            'rememberMe' => Yii::t('app','RemimberMe')
+        ];
+    }
     /**
      * Validates the password.
      * This method serves as the inline validation for password.

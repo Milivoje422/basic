@@ -194,57 +194,13 @@ class Rssnews extends ActiveRecord
     }
 
 
-//    public function askQuery(){
-//        $model = new PostVisitors();
-//        $posts = new rssnews();
-//        $model = $model->getAll();
-//        if(count($model) > 10){
-//            $posts = $posts->recommendedLogic();
-//
-//        }
-//    }
-
-
-//
-//$model = new rssnews();
-//$model = $model->recommendedLogic();
-////
-//$cats = array();
-//$posts = array();
-//
-//echo "<pre>";
-//
-//
-//foreach($model as $key => $val){
-//$cats[]= $val['category_id'];
-//$posts[] = $val['id'];
-//}
-//
-//
-//$posts = array_unique($posts);
-//$cats = array_unique($cats);
-//$arr = array($posts,$cats);
-//
-//$recommended = new rssnews;
-//
-//$c = implode(",",$cats);
-//$p = implode(",",$posts);
-//
-//$query = "SELECT * FROM rssnews WHERE category_id IN ({$c}) AND id NOT IN ({$p}) ORDER BY RAND() LIMIT 20 ";
-//
-//$return = rssnews::findBySQL($query)->all();
-//
-//print_r($return);
-
-
-/**
-     * @return array|\yii\db\ActiveRecord[]
+     /* @return array|\yii\db\ActiveRecord[]
      *
-     * Have to finish
+     * Recommended method query, which gets post ID and category ID for us.
+     *
      */
-    public function recommendedLogic(){
-
-
+    public function recommendedLogic()
+    {
         $query = "SELECT rssnews.id, rssnews.category_id FROM post_visitors
         INNER JOIN rssnews ON post_visitors.post_id=rssnews.id
         ORDER BY post_visitors.post_id DESC
@@ -252,20 +208,6 @@ class Rssnews extends ActiveRecord
 
         $return = rssnews::findBySQL($query)->all();
         return $return;
-
-
-//
-//        $query = PostVisitors::find()
-//
-////            ->where(['user_ip' => $_SERVER['REMOTE_ADDR']])
-//            ->joinWith('posts')
-//            ->select('posts.id, posts.category_id')
-////            ->orderBy(['post_id' => SORT_ASC])
-//            ->limit('10')
-//            ->all();
-//
-//        return $query;
-
     }
 
 
@@ -296,13 +238,5 @@ class Rssnews extends ActiveRecord
 
         return $model;
     }
-
-
-
-
-
-
-
-
 
 }
