@@ -41,7 +41,7 @@ AppAsset::register($this);
             <div id="imaginary_container"> 
                 <div class="input-group stylish-input-group">
                 <form method="GET" action="<?= url::to(['site/search']) ?>" style="display:inline-table;">
-                    <input type="text" name="search" class="form-control"  placeholder="Search" >
+                    <input type="text" name="search" class="form-control"  placeholder="<?= Yii::t('app','Search')?>" >
                     <span class="input-group-addon">
                         <button type="submit">
                             <span class="glyphicon glyphicon-search"></span>
@@ -69,7 +69,7 @@ AppAsset::register($this);
                 <ul id=\"yw3\" class=\"dropdown-menu\">";
                     foreach ($cat as $key => $cat_){ 
                         $menuItems[] =  
-                        "<li><a tabindex=".$key." href='/site/category/?id=".$cat_['id']."'>".$cat_['name']."</a></li>"; }
+                        "<li><a tabindex=".$key." href='/site/category/?id=".$cat_['id']."'>".Yii::t('app',$cat_['name'])."</a></li>"; }
         $menuItems[] ="</ul></li>";
 
         $menuItems[] = ['label' => Yii::t('app','Search'), 'url' => ['/site/search']];
