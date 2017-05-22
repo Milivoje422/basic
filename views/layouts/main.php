@@ -289,32 +289,6 @@ setTimeout(function(){
     }
 },15000);
 
-
-    // // Get recommended modal
-    // var modal = document.getElementById('recommendedModal');
-
-    // if(readCookie('recommended_lightbox')!== true){
-    //     $(document).ready(function(){
-    //         setTimeout(function(){
-    //             $('#recommendedModal').fadeIn();
-    //         },15000)
-    //     });
-
-    //     $('.close').on('click',function() {
-    //         $('#recommendedModal').fadeOut();
-    //         setCookie();
-    //     });
-
-    //     // When the user clicks anywhere outside of the modal, close it and set the cookie
-    //     window.onclick = function(event) {
-    //         if (event.target == modal) {
-    //             $('#recommendedModal').fadeOut();
-    //             setCookie();
-    //         }
-    //     }
-    // }
-
-
 // Slider widget
     jQuery(document).ready(function($) {
         // variables 
@@ -374,10 +348,6 @@ setTimeout(function(){
                 $('.button_play_box a').attr('post',id);
            
             $(window).on('load',infinite());
-
-           
-
-
     });
 
     </script>

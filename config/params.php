@@ -4,8 +4,8 @@ return [
     'adminEmail' => 'admin@example.com',
     'languages' => [
     'sr' => 'Srpski',
-    'ru' => 'russian',
-    'en' => 'english',
+    'ru' => 'Russian',
+    'en' => 'English',
     ],
     'appname' => 'BravoArcade',
 ];

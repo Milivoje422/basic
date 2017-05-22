@@ -8,23 +8,7 @@ $config = [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'app\commands',
-    // 'language' => 'ru',
-    // 'sourceLanguage' => 'en',
     'components' => [
-
-        // 'i18n' => [
-        //     'translations' => [
-        //         'app' => [
-        //             'class' => 'yii\i18n\PhpMessagwSource',
-        //             // 'basePath' => '@app/messages',
-        //             'sourceLanguage' => 'en',
-        //             'fileMap' => [
-        //                 'app' => 'app.php',
-        //                 'app/error' => 'error.php',
-        //             ],
-        //         ],
-        //     ],
-        // ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
@@ -43,13 +27,6 @@ $config = [
         'class' => 'app\messages\CheckLanguage',
     ],
     'params' => $params,
-    /*
-    'controllerMap' => [
-        'fixture' => [ // Fixture generation command line.
-            'class' => 'yii\faker\FixtureController',
-        ],
-    ],
-    */
 ];
 
 if (YII_ENV_DEV) {

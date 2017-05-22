@@ -91,22 +91,6 @@ class ApiVisitors extends \yii\db\ActiveRecord
             // $query->where('0=1');
             return $dataProvider;
         }
-
-        // grid filtering conditions
-        $query->andFilterWhere([
-//            'id' => $this->id,
-//            'user_ip' => $this->user_ip,
-//            'datetime' => $this->datetime,
-//            'visited' => $this->visited,
-//            'last_get' => $this->last_get,
-//            'status' => $this->status,
-        ]);
-
-//        $query->andFilterWhere(['like', 'user_ip', $this->user_ip])
-//        ->andFilterWhere(['like', 'visited', $this->visited])
-//        ->andFilterWhere(['like', 'last_get', $this->last_get])
-//            ->andFilterWhere(['like', 'status', $this->status]);
-
         return $dataProvider;
     }
 
