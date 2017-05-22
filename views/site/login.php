@@ -41,6 +41,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php ActiveForm::end(); ?>
 
     <div class="col-lg-offset-1" style="color:#999;">
-        <?= Yii::t('app','You may login with') ?><strong>admin/admin</strong>.<br>
+        <?= Yii::t('app','You may login with') ?><strong> admin/admin</strong>.<br>
     </div>
 </div>

@@ -1,217 +1,142 @@
-
-
-
-<link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,700&subset=latin-ext" rel="stylesheet">
-
-
-
-<!--Item slider text-->
-<div class="container">
-    <div class="row" id="slider-text">
-        <div class="col-md-6" >
-            <h2>NEW COLLECTION</h2>
+<div id='carousel_container'>
+    <div id='carousel_inner1'>
+        <ul id='carousel_ul1'>
+            <?php foreach($model as $key => $val){ ?>
+                <li class="<?= $key == 0? 'current':' '?>" id="<?= $val['id']; ?>"><a href="#"><img src="<?= $val['image']; ?>" /></a>
+                    <h2><?= $val['title']; ?></h2>
+                    <p><?= $val->getContent($val['content'],100).'...'; ?></p>
+                    <b><?= $val['main_link'];?></b>
+                </li>
+            <?php } ?>
+        </ul>
+    </div>
+    <div id='carousel_inner'>
+    <div class="current-game-content" style="position: absolute; top: -4px; margin-left: 10px;">
+    	<h3></h3>
+    	<p></p>
+    	<div class="button_play_box" style="float: left; margin: 0px;">
+            <a href="#" url-redirect='' post='' class="btn btn-warning button_play" role="button">
+            <?= Yii::t('app','Play now'); ?>
+            <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+            </a>
         </div>
     </div>
-</div>
-
-<!-- Item slider-->
-<div class="container-fluid">
-
-    <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="carousel carousel-showmanymoveone slide" id="itemslider">
-                <div class="carousel-inner">
-
-                    <?php foreach($model as $key => $val){ ?>
-
-                    <div class="item <?= ($key == 0? "active" : '')?>">
-                        <div class="" style="float: left; margin: 4px;">
-                            <a href="#"><img src="<?= $val['image'] ?>" class="img-responsive center-block"></a>
-<!--                            <h4 class="text-center">--><?//= $val['title'] ?><!--</h4>-->
-<!--                            <h5 class="text-center">--><?//= $val['content'] ?><!--</h5>-->
-                        </div>
-                    </div>
-                    <?php } ?>
-
-                </div>
-
-                <div id="slider-control">
-                    <a class="left carousel-control" href="#itemslider" data-slide="prev"><img src="https://s12.postimg.org/uj3ffq90d/arrow_left.png" alt="Left" class="img-responsive"></a>
-                    <a class="right carousel-control" href="#itemslider" data-slide="next"><img src="https://s12.postimg.org/djuh0gxst/arrow_right.png" alt="Right" class="img-responsive"></a>
-                </div>
-            </div>
-        </div>
+        <ul id='carousel_ul'>
+            <?php foreach($model as $key => $val){ ?>
+                <li class="empty "><a href="#"><img src="<?= $val['image']; ?>" /></a></li>
+            <?php } ?>
+        </ul>
     </div>
 </div>
 
 <style type="text/css">
-    #slider-text{
-        padding-top: 40px;
+    #carousel_ul1 {
+        position:relative;
+        padding: 0;
+        margin: 0;
+        overflow:hidden;
+        height: 185px;
+    }
+    #carousel_ul1 li {
+        width:200px;
+        height: 185px;
         display: block;
+        z-index: 1;
+        -webkit-transition: transform 1s;
+        -moz-transition: transform 1s;
+        -ms-transition: transform 1s;
+        -o-transition: transform 1s;
+        transition: transform 1s;
+
+        -webkit-transform: translateX(200px);
+        -moz-transform: translateX(200px);
+        -ms-transform: translateX(200px);
+        -o-transform: translateX(200px);
+        transform: translateX(200px);
+        left:0; top:0;
+        position:absolute;
+        overflow:hidden;
     }
-    #slider-text .col-md-6{
-        overflow: hidden;
+    #carousel_ul1 li.current{
+        -webkit-transform: translateX(0%);
+        -moz-transform: translateX(0%);
+        -ms-transform: translateX(0%);
+        -o-transform: translateX(0%);
+        transform: translateX(0%);
+        z-index:10;
+    }
+    #carousel_ul1 li.off{
+        -webkit-transform: translateX(-200px);
+        -moz-transform: translateX(-200px);
+        -ms-transform: translateX(-200px);
+        -o-transform: translateX(-200px);
+        transform: translateX(-200px);
+        z-index:10;
+    }
+    #carousel_ul1 li.current h3{
+        position: absolute;top: 0px; left: 200px;
+        z-index: 999;
+    }
+    #carousel_ul1 li.current p{
+        position: absolute;top: 80px; left: 200px;
+        z-index: 999;
     }
 
-    #slider-text h2 {
-        font-family: 'Josefin Sans', sans-serif;
-        font-weight: 400;
-        font-size: 30px;
-        letter-spacing: 3px;
-        margin: 30px auto;
-        padding-left: 40px;
-    }
-    #slider-text h2::after{
-        border-top: 2px solid #c7c7c7;
-        content: "";
-        position: absolute;
-        bottom: 35px;
-        width: 100%;
-    }
+#carousel_inner1 {
+    float: left;
+    width: 21%;
+    overflow: hidden;
+    background: #F0F0F0;
+}
 
-    #itemslider h4{
-        font-family: 'Josefin Sans', sans-serif;
-        font-weight: 400;
-        font-size: 12px;
-        margin: 10px auto 3px;
-    }
-    #itemslider h5{
-        font-family: 'Josefin Sans', sans-serif;
-        font-weight: bold;
-        font-size: 12px;
-        margin: 3px auto 2px;
-    }
-    #itemslider h6{
-        font-family: 'Josefin Sans', sans-serif;
-        font-weight: 300;;
-        font-size: 10px;
-        margin: 2px auto 5px;
-    }
-    .badge {
-        background: #b20c0c;
-        position: absolute;
-        height: 40px;
-        width: 40px;
-        border-radius: 50%;
-        line-height: 31px;
-        font-family: 'Josefin Sans', sans-serif;
-        font-weight: 300;
-        font-size: 14px;
-        border: 2px solid #FFF;
-        box-shadow: 0 0 0 1px #b20c0c;
-        top: 5px;
-        right: 25%;
-    }
-    #slider-control img{
-        padding-top: 60%;
-        margin: 0 auto;
-    }
-    @media screen and (max-width: 992px){
-        #slider-control img {
-            padding-top: 70px;
-            margin: 0 auto;
-        }
-    }
+#carousel_ul1 li img {
+    cursor:pointer;
+    border:0px;
+    width: 200px;
+}
 
-    .carousel-showmanymoveone .carousel-control {
-        width: 4%;
-        background-image: none;
-    }
-    .carousel-showmanymoveone .carousel-control.left {
-        margin-left: 5px;
-    }
-    .carousel-showmanymoveone .carousel-control.right {
-        margin-right: 5px;
-    }
-    .carousel-showmanymoveone .cloneditem-1,
-    .carousel-showmanymoveone .cloneditem-2,
-    .carousel-showmanymoveone .cloneditem-3,
-    .carousel-showmanymoveone .cloneditem-4,
-    .carousel-showmanymoveone .cloneditem-5 {
-        display: none;
-    }
-    @media all and (min-width: 768px) {
-        .carousel-showmanymoveone .carousel-inner > .active.left,
-        .carousel-showmanymoveone .carousel-inner > .prev {
-            left: -50%;
-        }
-        .carousel-showmanymoveone .carousel-inner > .active.right,
-        .carousel-showmanymoveone .carousel-inner > .next {
-            left: 50%;
-        }
-        .carousel-showmanymoveone .carousel-inner > .left,
-        .carousel-showmanymoveone .carousel-inner > .prev.right,
-        .carousel-showmanymoveone .carousel-inner > .active {
-            left: 0;
-        }
-        .carousel-showmanymoveone .carousel-inner .cloneditem-1 {
-            display: block;
-        }
-    }
-    @media all and (min-width: 768px) and (transform-3d), all and (min-width: 768px) and (-webkit-transform-3d) {
-        .carousel-showmanymoveone .carousel-inner > .item.active.right,
-        .carousel-showmanymoveone .carousel-inner > .item.next {
-            -webkit-transform: translate3d(50%, 0, 0);
-            transform: translate3d(50%, 0, 0);
-            left: 0;
-        }
-        .carousel-showmanymoveone .carousel-inner > .item.active.left,
-        .carousel-showmanymoveone .carousel-inner > .item.prev {
-            -webkit-transform: translate3d(-50%, 0, 0);
-            transform: translate3d(-50%, 0, 0);
-            left: 0;
-        }
-        .carousel-showmanymoveone .carousel-inner > .item.left,
-        .carousel-showmanymoveone .carousel-inner > .item.prev.right,
-        .carousel-showmanymoveone .carousel-inner > .item.active {
-            -webkit-transform: translate3d(0, 0, 0);
-            transform: translate3d(0, 0, 0);
-            left: 0;
-        }
-    }
-    @media all and (min-width: 992px) {
-        .carousel-showmanymoveone .carousel-inner > .active.left,
-        .carousel-showmanymoveone .carousel-inner > .prev {
-            left: -16.666%;
-        }
-        .carousel-showmanymoveone .carousel-inner > .active.right,
-        .carousel-showmanymoveone .carousel-inner > .next {
-            left: 16.666%;
-        }
-        .carousel-showmanymoveone .carousel-inner > .left,
-        .carousel-showmanymoveone .carousel-inner > .prev.right,
-        .carousel-showmanymoveone .carousel-inner > .active {
-            left: 0;
-        }
-        .carousel-showmanymoveone .carousel-inner .cloneditem-2,
-        .carousel-showmanymoveone .carousel-inner .cloneditem-3,
-        .carousel-showmanymoveone .carousel-inner .cloneditem-4,
-        .carousel-showmanymoveone .carousel-inner .cloneditem-5,
-        .carousel-showmanymoveone .carousel-inner .cloneditem-6  {
-            display: block;
-        }
-    }
-    @media all and (min-width: 992px) and (transform-3d), all and (min-width: 992px) and (-webkit-transform-3d) {
-        .carousel-showmanymoveone .carousel-inner > .item.active.right,
-        .carousel-showmanymoveone .carousel-inner > .item.next {
-            -webkit-transform: translate3d(16.666%, 0, 0);
-            transform: translate3d(16.666%, 0, 0);
-            left: 0;
-        }
-        .carousel-showmanymoveone .carousel-inner > .item.active.left,
-        .carousel-showmanymoveone .carousel-inner > .item.prev {
-            -webkit-transform: translate3d(-16.666%, 0, 0);
-            transform: translate3d(-16.666%, 0, 0);
-            left: 0;
-        }
-        .carousel-showmanymoveone .carousel-inner > .item.left,
-        .carousel-showmanymoveone .carousel-inner > .item.prev.right,
-        .carousel-showmanymoveone .carousel-inner > .item.active {
-            -webkit-transform: translate3d(0, 0, 0);
-            transform: translate3d(0, 0, 0);
-            left: 0;
-        }
-    }
+#carousel_inner {
+    margin-top: 123px;
+    float: right;
+    width: 79%;
+    overflow: hidden;
+    background: #F0F0F0;
+}
 
+#carousel_ul {
+    position: relative;
+    left: -63px;
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+    width: 9999px;
+    padding-bottom: 0;
+}
+#left_scroll img, #right_scroll img{
+    cursor: pointer;
+    cursor: hand;
+}
+
+#carousel_ul li{
+    float: left;
+    width: 63px;
+    padding: 0px;
+    height: 60px;
+    margin-top: 0px;
+    margin-left: 0px;
+    margin-right: 5px;
+}
+
+#carousel_ul li img {
+    cursor: hand;
+    border: 0px;
+    width: 63px;
+}
+
+#left_scroll, #right_scroll{
+    float:left;
+    height:130px;
+    width:15px;
+    background: #C0C0C0;
+}
 </style>
-<!-- Item slider end-->

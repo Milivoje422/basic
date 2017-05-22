@@ -3,7 +3,7 @@
 namespace app\models;
 
 use Yii;
-use app\models\Rssnews;
+use app\models\Posts;
 
 /**
  * This is the model class for table "post_visitors".
@@ -50,7 +50,7 @@ class PostVisitors extends \yii\db\ActiveRecord
 
     public function getPosts()
     {
-        return $this->hasOne(Rssnews::className(), ['id' => 'post_id']);
+        return $this->hasOne(Posts::className(), ['id' => 'post_id']);
     }
 
     public function getAll(){

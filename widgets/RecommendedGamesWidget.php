@@ -11,8 +11,10 @@ namespace app\widgets;
 
 use yii\base\Widget;
 use yii\helpers\Html;
-use app\models\rssnews;
+use app\models\Posts;
 use app\models\PostVisitors;
+use yii\web\Cookie;
+use Yii;
 
 class RecommendedGamesWidget extends Widget
 {
@@ -25,9 +27,10 @@ class RecommendedGamesWidget extends Widget
     public function run()
     {
         $model = new PostVisitors();
-        $posts = new rssnews();
+        $posts = new Posts();
         $model = $model->getAll();
         if(count($model) >= 10){
+
             $posts = $posts->recommendedLogic();
             $cats = array();
             $post = array();
@@ -43,12 +46,11 @@ class RecommendedGamesWidget extends Widget
             $c = implode(",",$cats);
             $p = implode(",",$post);
 
-            $query = "SELECT * FROM rssnews WHERE category_id IN ({$c}) AND id NOT IN ({$p}) ORDER BY RAND() LIMIT 20 ";
+            $query = "SELECT * FROM posts WHERE category_id IN ({$c}) AND id NOT IN ({$p}) ORDER BY RAND() LIMIT 20 ";
 
-            $return = rssnews::findBySQL($query)->all();
+            $return = Posts::findBySQL($query)->all();
 
             return $this->render('RecommendedGamesWidget',['model' => $return]);
         }
-        return $this->render('RecommendedGamesWidget');
     }
 }

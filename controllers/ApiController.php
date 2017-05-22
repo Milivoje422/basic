@@ -80,10 +80,10 @@ class ApiController extends ActiveController{
      */
     public function actionRating($category = null){
         if(!empty($category)) {
-            $query = "SELECT * FROM post_rating
-            INNER JOIN rssnews ON post_rating.post_id=rssnews.id
+           $query = "SELECT * FROM post_rating
+            INNER JOIN posts ON post_rating.post_id=posts.id
             WHERE created_at BETWEEN CURDATE() - INTERVAL 30 DAY AND CURDATE()
-            AND rssnews.category_id = $category
+            AND posts.category_id = $category
             ORDER BY post_rating.post_id DESC";
         }else{
             $query = "SELECT * FROM post_rating
@@ -103,9 +103,9 @@ class ApiController extends ActiveController{
     public function actionVisitors($category = null){
         if(!empty($category)) {
             $query = "SELECT * FROM post_visitors
-            INNER JOIN rssnews ON post_visitors.post_id=rssnews.id
+            INNER JOIN posts ON post_visitors.post_id=posts.id
             WHERE created_at BETWEEN CURDATE() - INTERVAL 30 DAY AND CURDATE()
-            AND rssnews.category_id = $category
+            AND posts.category_id = $category
             ORDER BY post_visitors.post_id DESC";
         }else{
             $query = "SELECT * FROM post_visitors

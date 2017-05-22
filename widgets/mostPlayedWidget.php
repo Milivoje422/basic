@@ -3,8 +3,7 @@
 namespace app\widgets;
 
 use yii\base\Widget;
-use yii\helpers\Html;
-use app\models\rssnews;
+use app\models\Posts;
 
 class MostPlayedWidget extends Widget
 {
@@ -16,9 +15,9 @@ class MostPlayedWidget extends Widget
 
     public function run()
     {
-        $mostPlayedModel = new rssnews();
+        $mostPlayedModel = new Posts();
         $mostPlayedModel = $mostPlayedModel->mostPlayed();
 
-        return $this->render('mostPlayedWidget',['model' => $mostPlayedModel]);
+        return $this->render('MostPlayedWidget',['model' => $mostPlayedModel]);
     }
 }

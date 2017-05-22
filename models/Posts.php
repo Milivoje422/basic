@@ -5,7 +5,7 @@ namespace app\models;
 use Yii;
 use yii\db\ActiveRecord;
 /**
- * This is the model class for table "rssnews".
+ * This is the model class for table "posts".
  *
  * @property integer $id
  * @property integer $category_id
@@ -16,14 +16,14 @@ use yii\db\ActiveRecord;
  * @property string $preview
  * @property string $main_link
  */
-class Rssnews extends ActiveRecord
+class Posts extends ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'rssnews';
+        return 'posts';
     }
 
     /**
@@ -125,12 +125,12 @@ class Rssnews extends ActiveRecord
     public function categorySearch($id)
     {
         // Get posts and sort them according on reviews by ID
-        $query = rssnews::find()
-        ->select(['rssnews.*', 'COUNT(post_visitors.post_id) AS countVisit'])
+        $query = Posts::find()
+        ->select(['posts.*', 'COUNT(post_visitors.post_id) AS countVisit'])
         ->where(["category_id" => $id])
         ->joinWith('visitors')
         ->joinWith('rating')
-        ->groupBy(['rssnews.id'])
+        ->groupBy(['posts.id'])
         ->orderBy(['countVisit' => SORT_DESC]);
 
         return $query;
@@ -146,11 +146,11 @@ class Rssnews extends ActiveRecord
     public function mostPlayed()
     {
         // Get posts and sort them according on reviews
-        $query = rssnews::find()
-        ->select(['rssnews.*', 'COUNT(post_visitors.post_id) AS countVisit'])
+        $query = Posts::find()
+        ->select(['posts.*', 'COUNT(post_visitors.post_id) AS countVisit'])
         ->joinWith('visitors')
         ->limit(22)
-        ->groupBy(['rssnews.id'])
+        ->groupBy(['posts.id'])
         ->orderBy(['countVisit' => SORT_DESC])
         ->all();
 
@@ -167,11 +167,11 @@ class Rssnews extends ActiveRecord
     public function mostRated()
     {
         // Get posts and sort them according on rating
-        $query = rssnews::find()
-        ->select(['rssnews.*','SUM(post_rating.raiting_value) / COUNT(post_rating.raiting_value) AS countRated'])
+        $query = Posts::find()
+        ->select(['posts.*','SUM(post_rating.raiting_value) / COUNT(post_rating.raiting_value) AS countRated'])
         ->joinWith('rating')
         ->limit(7)
-        ->groupBy(['rssnews.id'])
+        ->groupBy(['posts.id'])
         ->orderBy(['countRated' => SORT_DESC])
         ->all();
 
@@ -185,10 +185,10 @@ class Rssnews extends ActiveRecord
      *
      * @return $query
      */
-    public function getRandom($id)
+    public function getRandom($id,$limit = 3)
     {
         // Get random post for specific id  
-        $query = rssnews::find()->where(["category_id" => $id])->limit(3)->orderBy(['rand()'=>SORT_DESC])->all();
+        $query = Posts::find()->where(["category_id" => $id])->limit($limit)->orderBy(['rand()'=>SORT_DESC])->all();
 
         return $query;
     }
@@ -201,12 +201,12 @@ class Rssnews extends ActiveRecord
      */
     public function recommendedLogic()
     {
-        $query = "SELECT rssnews.id, rssnews.category_id FROM post_visitors
-        INNER JOIN rssnews ON post_visitors.post_id=rssnews.id
+        $query = "SELECT posts.id, posts.category_id FROM post_visitors
+        INNER JOIN posts ON post_visitors.post_id=posts.id
         ORDER BY post_visitors.post_id DESC
         LIMIT 10";
 
-        $return = rssnews::findBySQL($query)->all();
+        $return = Posts::findBySQL($query)->all();
         return $return;
     }
 
@@ -223,14 +223,14 @@ class Rssnews extends ActiveRecord
      */
     public function Search($query){
 
-        $model = rssnews::find()
-            ->select(['rssnews.*','SUM(post_rating.raiting_value) / COUNT(post_rating.raiting_value) AS countRated'])
+        $model = Posts::find()
+            ->select(['posts.*','SUM(post_rating.raiting_value) / COUNT(post_rating.raiting_value) AS countRated'])
             ->joinWith('rating')
-            ->groupBy(['rssnews.id'])
+            ->groupBy(['posts.id'])
             ->orderBy(['countRated' => SORT_DESC]);
 
         if(!empty($query)){
-            $model = rssnews::find();
+            $model = Posts::find();
 
             $model->andFilterWhere(['like', 'title', $query])
                   ->andFilterWhere(['like', 'content', $query]);

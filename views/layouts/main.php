@@ -10,7 +10,11 @@ use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 use yii\helpers\Url;
 use app\models\Categories;
+use app\models\PostVisitors;
 use app\widgets\RecommendedGamesWidget;
+use kartik\social\FacebookPlugin;
+use kartik\social\GooglePlugin;
+use kartik\social\TwitterPlugin;
 
 AppAsset::register($this);
 ?>
@@ -116,14 +120,31 @@ AppAsset::register($this);
 <!--Footer END-->
 
 <!--Recommended games modal-->
-
-    <div id="recommendedModal" class="modal">
+<?php $model = new PostVisitors();
+        $model = $model->getAll();
+        if(count($model) >= 10){ ?>
+    <div id="recommendedModal" class="modal" style="z-index: 999;">
         <div class="modal-content">
             <p><?= RecommendedGamesWidget::widget() ?></p>
         </div>
     </div>
-
+    <?php } ?>
 <!-- ===========END=========== -->
+
+    <div class="social-media">
+       <ul>
+           <li>
+                <?= FacebookPlugin::widget(['type'=>FacebookPlugin::SHARE, 'settings' =>['size'=>'small', 'layout'=>'button_count',
+                        'mobile_iframe'=>'false','href' => 'http://workproject.22web.org']]); ?>
+            </li>
+            <li>
+                <?= GooglePlugin::widget(['type'=>GooglePlugin::SHARE, 'settings' => ['annotation'=>'bubble']]); ?>
+            </li>
+            <li>
+                <?= TwitterPlugin::widget(['type'=>TwitterPlugin::SHARE, 'settings' => ['size'=>'default']]); ?>
+            </li>
+       </ul>
+    </div>
 
 <?php $this->endBody() ?>
   <script type="text/javascript">
@@ -243,18 +264,15 @@ jQuery(document).ready(function($){
             while (c.charAt(0)==' ') c = c.substring(1,c.length);
             if (c.indexOf(nameEQ) == 0) return true;
         }
-        return null;
+        return false;
     }
 
     // Get the modal
     var modal = document.getElementById('recommendedModal');
+setTimeout(function(){
+    if(readCookie('recommended_lightbox') !== true){
 
-    if(readCookie('recommended_lightbox')!== true){
-        $(document).ready(function(){
-            setTimeout(function(){
-                $('#recommendedModal').fadeIn();
-            },15000)
-        });
+        $('#recommendedModal').fadeIn();
 
         $('.close').on('click',function() {
             $('#recommendedModal').fadeOut();
@@ -269,63 +287,99 @@ jQuery(document).ready(function($){
             }
         }
     }
+},15000);
 
 
+    // // Get recommended modal
+    // var modal = document.getElementById('recommendedModal');
+
+    // if(readCookie('recommended_lightbox')!== true){
+    //     $(document).ready(function(){
+    //         setTimeout(function(){
+    //             $('#recommendedModal').fadeIn();
+    //         },15000)
+    //     });
+
+    //     $('.close').on('click',function() {
+    //         $('#recommendedModal').fadeOut();
+    //         setCookie();
+    //     });
+
+    //     // When the user clicks anywhere outside of the modal, close it and set the cookie
+    //     window.onclick = function(event) {
+    //         if (event.target == modal) {
+    //             $('#recommendedModal').fadeOut();
+    //             setCookie();
+    //         }
+    //     }
+    // }
+
+
+// Slider widget
     jQuery(document).ready(function($) {
-//        $(document).ready(function(ev){
-//            var items = $(".nav li").length;
-//            var leftRight=0;
-//            if(items>5){
-//                leftRight=(items-5)*50*-1;
-//            }
-//            $('#custom_carousel').on('slide.bs.carousel', function (evt) {
-//
-//
-//                $('#custom_carousel .controls li.active').removeClass('active');
-//                $('#custom_carousel .controls li:eq('+$(evt.relatedTarget).index()+')').addClass('active');
-//            })
-//            $('.nav').draggable({
-//                axis: "x",
-//                stop: function() {
-//                    var ml = parseInt($(this).css('left'));
-//                    if(ml>0)
-//                        $(this).animate({left:"0px"});
-//                    if(ml<leftRight)
-//                        $(this).animate({left:leftRight+"px"});
-//
-//                }
-//
-//            });
-//        });
-//        (function(){
-//
-////            $('#itemslider').carousel({ interval: 10000 });
-//        }());
-//
-//        (function(){
-//            $('.carousel-showmanymoveone .item').each(function(){
-//                var itemToClone = $(this);
-////                console.log(itemToClone);
-//                for (var i= 1;i<10;i++) {
-//
-////                    console.log(itemToClone);
-//                    itemToClone = itemToClone.next();
-//
-////                    console.log(itemToClone.length);
-//                    if (!itemToClone.length) {
-//                        itemToClone = $(this).siblings(':first');
-////                        console.log(itemToClone.length);
-//                    }
-//
-//
-//                    itemToClone.children(':first-child').clone()
-//                        .addClass("cloneditem-"+(i))
-//                        .appendTo($(this));
-//                }
-//            });
-//        }());
+        // variables 
+        var slides = $('#carousel_ul1 li');
+
+                function slide(){
+                var item_width = $('#carousel_ul li').outerWidth() + 5;
+                var left_indent = parseInt($('#carousel_ul').css('left')) - item_width;
+
+                    if(left_indent <= -2035){
+                        left_indent = 0;
+                    }
+
+                $('#carousel_ul').animate({'left' : left_indent},{queue:false, duration:500},function(){
+                    $('#carousel_ul li:last').after($('#carousel_ul li:first'));
+                    $('#carousel_ul').css({'left' : '-110px'});
+                });
+            };
+
+             function slideBig(){
+            
+                var current = slides.filter('.current'),
+                    next = current.next();
+
+                if (!next.length){next = slides.first();}
+
+                slides.removeClass('off');
+                current.removeClass('current').addClass('off');
+                next.removeClass('off').addClass('current');
+
+            var title = $('#carousel_inner1 ul .current h2').html();
+            var content = $('#carousel_inner1 ul .current p').html()
+            var id = $('#carousel_inner1 ul .current').attr('id');
+            var link = $('#carousel_inner1 ul .current b').html();
+
+                $('.current-game-content h3').replaceWith('<h3>'+title+'</h3>');
+                $('.current-game-content p').replaceWith('<p>'+content+'</p>');
+                $('.button_play_box a').attr('url-redirect',link);
+                $('.button_play_box a').attr('post',id);
+            } 
+
+        function infinite(){
+            setTimeout(function () {
+                slide();
+                slideBig();
+                infinite();
+            }, 15000);
+        }
+            var title = $('#carousel_inner1 ul .current h2').html();
+            var content = $('#carousel_inner1 ul .current p').html()
+            var id = $('#carousel_inner1 ul .current').attr('id');
+            var link = $('#carousel_inner1 ul .current b').html();
+
+                $('.current-game-content h3').replaceWith('<h3>'+title+'</h3>');
+                $('.current-game-content p').replaceWith('<p>'+content+'</p>');
+                $('.button_play_box a').attr('url-redirect',link);
+                $('.button_play_box a').attr('post',id);
+           
+            $(window).on('load',infinite());
+
+           
+
 
     });
+
     </script>
 
 

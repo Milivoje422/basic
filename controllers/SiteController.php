@@ -13,7 +13,7 @@ use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\Categories;
 use app\models\PostRating;
-use app\models\rssnews;
+use app\models\Posts;
 use app\models\PostVisitors;
 use yii\data\Pagination;
 
@@ -140,7 +140,7 @@ class SiteController extends Controller
     */
     public function actionSearch()
     {
-        $query = new rssnews();
+        $query = new Posts();
         $query = $query->Search((isset($_GET['search'])? $_GET['search'] : '')); // Get query and paste him into search method as parameter
 
 
@@ -158,7 +158,7 @@ class SiteController extends Controller
     public function actionCategory($id)
     {
         // Get posts and sort them according on reviews
-        $query = new rssnews();
+        $query = new Posts();
         $query = $query->categorySearch($id);
 
         $countQuery = clone $query;
@@ -275,7 +275,7 @@ class SiteController extends Controller
     {
         $feed = Yii::$app->rss_feed->loadRss($url);
         foreach ($feed->item as $item) {
-            $model = new rssnews();
+            $model = new Posts();
 
                 $formated_time = date('Y-m-d h:i:s');
 

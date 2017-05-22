@@ -21,6 +21,7 @@ use app\widgets\MainSliderWidget;
     <?php
     $array = array();
     $output = "";
+    if(count($models) >= 1){
     foreach ($models as $model) {
         $output .= '<div class="col-sm-12 col-xs-12">';
         $output .= '<div class="item-box">';
@@ -67,6 +68,9 @@ use app\widgets\MainSliderWidget;
 
         $output .= '</div>';
         $output .= '</div>';
+    }
+    }else{
+        $output = "<h3>There no games on: ".$_GET['search']."</h3>";
     }
     echo $output;
     ?>

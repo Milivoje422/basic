@@ -4,7 +4,7 @@ namespace app\widgets;
 
 use yii\base\Widget;
 use yii\helpers\Html;
-use app\models\rssnews;
+use app\models\Posts;
 
 class RandomPostsWidget extends Widget
 {
@@ -16,7 +16,7 @@ class RandomPostsWidget extends Widget
 
     public function run()
     {
-        $randomPost = new rssnews();
+        $randomPost = new Posts();
         $dataRandom = array(
         'Strategy' => $randomPost->getRandom(9),
         'Arcade'   => $randomPost->getRandom(11),

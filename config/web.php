@@ -18,13 +18,13 @@ $config = [
 
             // the global settings for the facebook plugins widget
             'facebook' => [
-                'appId' => '1948386958725743',
-                'app_secret' => '796efa9698fa227c08d68a93784b495a',
+                'appId' => '1514934312149225',
+                'app_secret' => 'c5f8f94a02493b51821f20d9e4fdd523',
             ],
 
             // the global settings for the google plugins widget
             'google' => [
-                'clientId' => 'GOOGLE_API_CLIENT_ID',
+                'clientId' => '932123626640-8207i26h55op200i7rtutjte8usrvidb.apps.googleusercontent.com',
                 'pageId' => 'GOOGLE_PLUS_PAGE_ID',
                 'profileId' => 'GOOGLE_PLUS_PROFILE_ID',
             ],
@@ -37,7 +37,7 @@ $config = [
             
             // the global settings for the twitter plugins widget
             'twitter' => [
-                'screenName' => 'TWITTER_SCREEN_NAME'
+                'screenName' => 'milivojeivic422'
             ],
         ],
     ],
@@ -58,6 +58,7 @@ $config = [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => '4534',
+            'baseUrl' => '',
             'parsers' => [
 //                'application/json' => 'yii\web\JsonParser',
             ],
@@ -88,10 +89,13 @@ $config = [
         ],
         'db' => require(__DIR__ . '/db.php'),
         'urlManager' => [
+        'class' => 'yii\web\UrlManager',
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'post'],
+                // '' => 'site/index',
+                // '<action>'=>'site/<action>',
             ],
         ],
 
